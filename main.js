@@ -3,7 +3,7 @@ const express = require('express');
 const createError = require('http-errors');
 const path = require("path");
 const session = require("express-session");
-const flash = require("flash");
+const flash = require("connect-flash");
 const cors = require("cors");
 const cookie = require("cookie-parser");
 const bodyParser = require('body-parser');
@@ -31,12 +31,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookie('SUD'));
+app.use(session({
+    cookie: { maxAge: 30000000 },
+    saveUninitialized: true
+}));
+app.use(flash());
 // app.use(cookie())
 
 
 // default routes
 app.get('/', (req, res, next) => {
-    // console.log()
+    const username = req.session.username
+    if (!username) {
+        return res.status(300).redirect('/accounts/login')
+    }
     res.render('index', {
         document: "Index",
         title: "Demo"
