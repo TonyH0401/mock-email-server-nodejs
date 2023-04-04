@@ -68,7 +68,7 @@ router.get('/create-demo-account', async (req, res, next) => {
 //         sender: "admin",
 //         subject: "demo subject",
 //         body: "demo body",
-//         receiver: [{ username: "admin3" }]
+//         receiver: [{ username: "admin3" }, { username: "admin2" }]
 //     })
 //     // email.receiver.push(["admin2", "admin3"])
 //     await email.save()
@@ -80,21 +80,83 @@ router.get('/create-demo-account', async (req, res, next) => {
 //         message: message
 //     })
 // })
-// router.get("/find", async (req, res, next) => {
-//     let success = true
-//     let message = ""
-//     let data
-//     try {
-//         data = await EmailModel.find()
-//     } catch (error) {
-//         sucess = false
-//         message = error
-//     }
-//     return res.json({
-//         success: success,
-//         data: data
-//     })
-// })
+router.get("/find", async (req, res, next) => {
+    try {
+        let email = await EmailModel.find({ "receiver.username": "admin3" })
+        if (!email) {
+            return res.status(500).json({
+                success: false,
+                message: "No data"
+            })
+        }
+        return res.status(200).json({
+            success: true,
+            data: email
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error
+        })
+    }
+})
+router.get("/find-detail", async (req, res, next) => {
+    try {
+        let email = await EmailModel.find({ "receiver.username": "admin3" })
+        if (!email) {
+            return res.status(500).json({
+                success: false,
+                message: "No data"
+            })
+        }
+        let data = []
+        data = email.map(d => {
+            return {
+                _id: d._id,
+                sender: d.sender,
+                subject: d.subject,
+                is_read: d.receiver.find(x => x.username == "admin3").is_read,
+                is_star: d.receiver.find(x => x.username == "admin3").is_star,
+                is_delete: d.receiver.find(x => x.username == "admin3").is_delete,
+                is_star_send: d.is_star,
+                normal_email: d.normal_email,
+                createdAt: d.createdAt
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            data: data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error
+        })
+    }
+})
+router.get("/update", async (req, res, next) => {
+    try {
+        let email = await EmailModel.findOne({ _id: "642c17db38f813d696a347b4" })
+        if (!email) {
+            return res.status(500).json({
+                success: false,
+                message: "No data found"
+            })
+        }
+        email.receiver.find(x => x.username == "admin3").is_read = true
+        let result = await email.save()
+        return res.status(200).json({
+            success: true,
+            data: result
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error
+        })
+    }
+})
+
 router.get('/register', (req, res, next) => {
     res.render('register')
 })
@@ -123,6 +185,7 @@ router.post('/login', async (req, res, next) => {
     req.session.username = email
     return res.status(200).redirect('/')
 })
+
 router.get("/create-email", async (req, res, next) => {
     try {
         // const { username } = req.session.username;
