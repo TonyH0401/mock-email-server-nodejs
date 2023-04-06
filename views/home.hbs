@@ -55,20 +55,103 @@
         <a href="/accounts/security-question">Security Question</a>
     </div>
     <div class="main">
-        <h2>Sidebar</h2>
-        <p>This sidebar is of full height (100%) and always shown.</p>
-        <p>Scroll down the page to see the result.</p>
-        <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset
-            concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum.
-            Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-        <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset
-            concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum.
-            Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-        <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset
-            concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum.
-            Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
-        <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset
-            concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum.
-            Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+        <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">MyMail Account</h3>
+        <form action="/accounts/change-account-info" method="POST" id="changeInfoForm">
+            {{#if error}}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {{/if}}
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+
+                    <div class="form-outline">
+                        <input type="text" id="firstName" name="firstName" class="form-control form-control-lg"
+                            value="{{firstName}}" readonly />
+                        <label class="form-label" for="firstName">First Name</label>
+                    </div>
+
+                </div>
+                <div class="col-md-6 mb-4">
+
+                    <div class="form-outline">
+                        <input type="text" id="lastName" name="lastName" class="form-control form-control-lg"
+                            value="{{lastName}}" readonly />
+                        <label class="form-label" for="lastName">Last Name</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                    <div class="form-outline datepicker w-100">
+                        <input type="date" name="birthday" class="form-control form-control-lg" id="birthdayDate"
+                            value="{{birthday}}" readonly />
+                        <label for="birthdayDate" class="form-label">Birthday</label>
+                    </div>
+
+                </div>
+                <div class="col-md-6 mb-4">
+                    <h6 class="mb-2 pb-1">Gender: </h6>
+                    {{#each gender}}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input rdbtn" type="radio" name="inlineRadioOptions" id="{{value}}"
+                            value="{{value}}" {{#if select}} checked="checked" {{/if}} disabled />
+                        <label class="form-check-label" for="{{value}}">{{value}}</label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
+                    <div class="form-outline">
+                        <input type="email" id="emailAddress" name="emailAddress" class="form-control form-control-lg"
+                            value="{{email}}" readonly />
+                        <label class="form-label" for="emailAddress">Email</label>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 pb-2">
+                    <div class="form-outline">
+                        <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control form-control-lg"
+                            value="{{phoneNumber}}" readonly />
+                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="" id="change-info">
+                <button type="button" class="btn btn-outline-info btn-block mb-4 w-10" form=""
+                    id="btn-info-change">Change
+                    Information</button>
+            </div>
+            <div class="d-flex justify-content-center mx-auto">
+                <button type="submit" class="btn btn-success mb-4 mr-5" form="changeInfoForm" style="width: 40%"
+                    id="save-change" hidden>Save Change</button>
+                <button type="button" class="btn btn-danger mb-4" form="" style="width: 40%" id="cancel-save"
+                    hidden>Cancel Save</button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#btn-info-change').click(function () {
+            $('#firstName').prop('readonly', false)
+            $('#lastName').prop('readonly', false)
+            $('#birthdayDate').prop('readonly', false)
+            $('#phoneNumber').prop('readonly', false)
+            $('.rdbtn').prop('disabled', false)
+
+            $('#change-info').prop('hidden', true)
+            $('#save-change').prop('hidden', false)
+            $('#cancel-save').prop('hidden', false)
+        });
+        $('#cancel-save').click(function () {
+            location.reload()
+        });
+    });
+</script>

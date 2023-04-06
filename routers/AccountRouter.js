@@ -5,6 +5,7 @@ const EmailModel = require('../model/EmailModel');
 const validator_API = require('../middlewares/validator');
 const randomstring = require('randomstring');
 const function_API = require('../middlewares/function');
+const moment = require('moment');
 
 
 // /accounts/routes
@@ -230,6 +231,7 @@ router.post('/register', async (req, res, next) => {
     }
 })
 
+
 router.get('/login', (req, res, next) => {
     const email = req.session.email
     if (email) {
@@ -329,6 +331,7 @@ router.post('/two-authentication', async (req, res, next) => {
     return res.status(200).redirect('/accounts/home')
 })
 
+
 router.get('/forgot-password', async (req, res, next) => {
     const email = req.session.email
     if (email) {
@@ -369,6 +372,7 @@ router.post('/forgot-password', async (req, res, next) => {
         })
     }
 })
+
 
 router.get('/change-password', async (req, res, next) => {
     const email = req.session.email
@@ -415,6 +419,7 @@ router.post('/change-password', async (req, res, next) => {
     }
 })
 
+
 router.get('/security-question', async (req, res, next) => {
     const email = req.session.email
     if (!email) {
@@ -454,13 +459,55 @@ router.put('/security-question', async (req, res, next) => {
 })
 
 
-
 router.get('/home', async (req, res, next) => {
     const email = req.session.email
     if (!email) {
         return res.status(300).redirect('/accounts/login')
     }
-    return res.render('home')
+    let user = await AccountModel.findOne({ email: email })
+    let genderOpt = [
+        { value: "male", select: false },
+        { value: "female", select: false },
+        { value: "other", select: false }
+    ]
+    genderOpt.find(x => x.value == user.gender).select = true
+    return res.render('home', {
+        error: req.flash('error'),
+        firstName: user.first_name,
+        lastName: user.last_name,
+        birthday: moment(user.birthday).format('YYYY-MM-DD'),
+        gender: genderOpt,
+        email: user.email,
+        phoneNumber: user.phone_number
+    })
+})
+router.post('/change-account-info', async (req, res, next) => {
+    const email = req.session.email
+    const { firstName, lastName, birthday, inlineRadioOptions, phoneNumber } = req.body
+
+    try {
+        let user = await AccountModel.findOne({ email: email })
+        if (user.phone_number != phoneNumber) {
+            const phoneObject = await validator_API.phoneExist(phoneNumber)
+            if (phoneObject.success) {
+                req.flash('error', phoneObject.message)
+                return res.status(300).redirect('/accounts/home')
+            }
+        }
+        user.first_name = firstName
+        user.last_name = lastName
+        user.birthday = new Date(birthday).toUTCString()
+        user.gender = inlineRadioOptions
+        user.phone_number = phoneNumber
+        let result = await user.save()
+        return res.status(200).redirect('/accounts/home')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Home Error",
+            status: 500,
+            message: error
+        })
+    }
 })
 
 router.get("/create-email", async (req, res, next) => {
