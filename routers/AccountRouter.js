@@ -313,7 +313,7 @@ router.get('/forgot-password', async (req, res, next) => {
         success: req.flash('success') || ''
     })
 })
-router.post('/forgot-password', async (req, res, ntext) => {
+router.post('/forgot-password', async (req, res, next) => {
     const { emailAddress, phone } = req.body
 
     try {
@@ -343,6 +343,53 @@ router.post('/forgot-password', async (req, res, ntext) => {
         })
     }
 })
+
+router.get('/change-password', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.status(200).redirect('/accounts/login')
+    }
+    return res.status(200).render('change-password', {
+        document: 'Change Password',
+        error: req.flash('error') || '',
+        success: req.flash('success') || ''
+    })
+})
+router.post('/change-password', async (req, res, next) => {
+    const email = req.session.email
+    const { oldPassword, newPassword, newPassword2 } = req.body
+    try {
+        let user = await AccountModel.findOne({ email: email })
+        if (user.password != oldPassword) {
+            req.flash('error', 'Wrong old password input!')
+            return res.status(500).redirect('/accounts/change-password')
+        }
+        if (newPassword != newPassword2) {
+            req.flash('error', 'New password does not match each other!')
+            return res.status(500).redirect('/accounts/change-password')
+        }
+        if (oldPassword == newPassword) {
+            req.flash('error', 'New password can not be Old password!')
+            return res.status(500).redirect('/accounts/change-password')
+        }
+        if (newPassword.length < 6) {
+            req.flash('error', 'New password must be atleast 6 letters!')
+            return res.status(500).redirect('/accounts/change-password')
+        }
+        user.password = newPassword
+        let result = await user.save()
+        req.flash('success', 'New password successfully changed')
+        return res.status(200).redirect('/accounts/change-password')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Change Password Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+
+
 
 router.get('/home', async (req, res, next) => {
     const email = req.session.email
