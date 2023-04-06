@@ -4,6 +4,7 @@ const AccountModel = require('../model/AccountModel');
 const EmailModel = require('../model/EmailModel');
 const validator_API = require('../middlewares/validator');
 const randomstring = require('randomstring');
+const function_API = require('../middlewares/function');
 
 
 // /accounts/routes
@@ -264,6 +265,16 @@ router.post('/login', async (req, res, next) => {
                 email: email
             })
         }
+        if (emailExist.two_auth) {
+            let result = function_API.randomPropety(emailExist.question)
+            // console.log(result)
+            req.flash('question', result.key)
+            return res.status(300).render('two-authentication', {
+                document: 'Two Authentication',
+                email: email,
+                question: function_API.questionTopic(result.key)
+            })
+        }
         req.session.email = email
         return res.status(200).redirect('/accounts/home')
     } catch (error) {
@@ -301,6 +312,21 @@ router.post('/email-validation', async (req, res, next) => {
             message: error
         })
     }
+})
+router.post('/two-authentication', async (req, res, next) => {
+    const { email, question } = req.body
+    let question_key = req.flash('question')
+
+    let user = await AccountModel.findOne({ email: email })
+    if (!user.question[question_key]) {
+        return res.redirect('/accounts/login')
+    }
+    if (user.question[question_key] != question) {
+        req.flash('error', 'Two Authentication failed!')
+        return res.redirect('/accounts/login')
+    }
+    req.session.email = email
+    return res.status(200).redirect('/accounts/home')
 })
 
 router.get('/forgot-password', async (req, res, next) => {
@@ -387,6 +413,44 @@ router.post('/change-password', async (req, res, next) => {
             message: error
         })
     }
+})
+
+router.get('/security-question', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.redirect('/accounts/login')
+    }
+    let user = await AccountModel.findOne({ email: email })
+    return res.status(200).render('security-question', {
+        document: 'Security Questions',
+        sq_enable: (user.two_auth) ? true : ''
+    })
+})
+router.post('/security-question', async (req, res, next) => {
+    // console.log(req.body)
+    const { petName, nickName, favFood } = req.body
+    const email = req.session.email
+    let user = await AccountModel.findOne({ email: email })
+    user.question.pet_name = petName
+    user.question.nickname = nickName
+    user.question.fav_food = favFood
+    user.two_auth = true
+    await user.save()
+    return res.json({
+        success: true
+    })
+})
+router.put('/security-question', async (req, res, next) => {
+    const email = req.session.email
+    let user = await AccountModel.findOne({ email: email })
+    user.question.pet_name = ''
+    user.question.nickname = ''
+    user.question.fav_food = ''
+    user.two_auth = false
+    await user.save()
+    return res.json({
+        success: true
+    })
 })
 
 

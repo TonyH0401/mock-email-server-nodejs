@@ -1,0 +1,158 @@
+<style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+        margin-left: 160px;
+        /* Same as the width of the sidenav */
+        font-size: 28px;
+        /* Increased text to enable scrolling */
+        padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="sidenav">
+        <a href="/accounts/home">About</a>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="/accounts/change-password">Change Password</a>
+        <a href="/accounts/security-question" style="color:white; background-color:gray">Security Question</a>
+    </div>
+
+    <div class="main">
+        <h2 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">Security Question</h2>
+        <form action="" method="POST" id="">
+            {{#if sq_enable}}
+            <button type="submit" class="btn btn-danger btn-block mb-4" form="" onclick="termination()">Disable</button>
+            {{else}}
+            <div class="form-outline mb-4">
+                <label class="form-label" for="petName">Question 1: What is your pet name?</label>
+                <input type="text" id="petName" name="petName" class="form-control" required />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="nickName">Question 2: What is your nickname when you were
+                    young?</label>
+                <input type="text" id="nickName" name="nickName" class="form-control" required />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="favFood">What is your favourite food?</label>
+                <input type="text" id="favFood" name="favFood" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block mb-4" form=""
+                onclick="confirmation()">Enable</button>
+            {{/if}}
+        </form>
+
+        {{!-- <div id="popup">
+            <form action="" method="post">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="password1">Password</label>
+                    <input type="password" id="password1" name="password1" class="form-control" required />
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="password2">Re-enter Password</label>
+                    <input type="password" id="password2" name="password2" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-outline-success btn-block mb-4" form="">Confirm
+                    Change</button>
+                <button type="submit" class="btn btn-outline-danger btn-block mb-4" form="">Cancel
+                    Change</button>
+            </form>
+        </div> --}}
+    </div>
+</div>
+
+<script>
+    function confirmation() {
+        event.preventDefault()
+        if (confirm("Enable Security Questions?")) {
+            let petName = document.getElementById('petName').value
+            let nickName = document.getElementById('nickName').value
+            let favFood = document.getElementById('favFood').value
+            let body = JSON.stringify({ petName, nickName, favFood })
+            fetch('/accounts/security-question', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: body
+            })
+                .then(result => {
+                    return result.json()
+                })
+                .then(data => {
+                    console.log(data.success)
+                    location.reload()
+                })
+                .catch(err => {
+                    alert('Error happened when fetch!')
+                })
+        }
+        else {
+            document.getElementById('petName').value = ''
+            document.getElementById('nickName').value = ''
+            document.getElementById('favFood').value = ''
+            location.reload()
+        }
+    }
+
+    function termination() {
+        event.preventDefault()
+        if (confirm("Disable Security Question?")) {
+            fetch('/accounts/security-question', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+            })
+                .then(result => {
+                    return result.json()
+                })
+                .then(data => {
+                    console.log(data.success)
+                    location.reload()
+                })
+                .catch(err => {
+                    alert('Error happened when fetch!')
+                })
+        }
+        else {
+            location.reload()
+        }
+    }
+</script>
