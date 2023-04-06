@@ -3,6 +3,7 @@ const router = express.Router()
 const AccountModel = require('../model/AccountModel');
 const EmailModel = require('../model/EmailModel');
 const { loginValidation } = require('../middlewares/login-validator');
+const validator_API = require('../middlewares/validator');
 
 
 // /accounts/routes
@@ -80,6 +81,7 @@ router.get('/create-demo-account', async (req, res, next) => {
 //         message: message
 //     })
 // })
+// -----------------------------------
 router.get("/find", async (req, res, next) => {
     try {
         let email = await EmailModel.find({ "receiver.username": "admin3" })
@@ -156,27 +158,113 @@ router.get("/update", async (req, res, next) => {
         })
     }
 })
-
-router.get('/register', (req, res, next) => {
-    res.render('register')
-})
-router.post('/register', (req, res) => {
-    const { name, age } = req.body
-    console.log(req.body)
-    console.log(typeof req.body)
-    return res.json(req.body)
-})
-
 // -----------------------------------------------------------------------------------------------
+router.get('/register', async (req, res, next) => {
+    const email = req.session.email
+    if (email) {
+        return res.status(202).redirect('/')
+    }
+    return res.status(200).render('register', {
+        error: req.flash('error') || '',
+        firstName: req.flash('firstName') || '',
+        lastName: req.flash('lastName') || '',
+        birthday: req.flash('birthday') || '',
+        emailAddress: req.flash('emailAddress') || '',
+        phoneNumber: req.flash('phoneNumber') || ''
+    })
+})
+router.post('/register', async (req, res, next) => {
+    try {
+        const { firstName, lastName, birthday, inlineRadioOptions, emailAddress, phoneNumber, password, password2 } = req.body
+        req.flash('firstName', firstName)
+        req.flash('lastName', lastName)
+        req.flash('birthday', birthday)
+        req.flash('emailAddress', emailAddress)
+        req.flash('phoneNumber', phoneNumber)
+        const { success, message } = validator_API.checkEmailSubfix(emailAddress)
+        if (!success) {
+            req.flash('error', message)
+            return res.status(300).redirect('/accounts/register')
+        }
+        if (phoneNumber.length != 10) {
+            req.flash('error', 'Invalid phone number and length!')
+            return res.status(300).redirect('/accounts/register')
+        }
+        if (password.length < 6) {
+            req.flash('error', 'Password must be atleast 6 letters long!')
+            return res.status(300).redirect('/accounts/register')
+        }
+        if (password != password2) {
+            req.flash('error', 'Password does not match each other!')
+            return res.status(300).redirect('/accounts/register')
+        }
+        const phoneObject = await validator_API.phoneExist(phoneNumber)
+        if (phoneObject.success) {
+            req.flash('error', phoneObject.message)
+            return res.status(300).redirect('/accounts/register')
+        }
+        const userObject = await validator_API.emailExist(emailAddress)
+        if (userObject.success) {
+            req.flash('error', userObject.message)
+            return res.status(300).redirect('/accounts/register')
+        }
+
+        let user = new AccountModel({
+            first_name: firstName,
+            last_name: lastName,
+            gender: inlineRadioOptions,
+            birthday: new Date(birthday).toUTCString(),
+            email: emailAddress,
+            password: password,
+            phone_number: phoneNumber
+        })
+        let result = await user.save()
+        return res.status(200).redirect('/accounts/login')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Registration Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+
 router.get('/login', (req, res, next) => {
+    const email = req.session.email
+    if (email) {
+        return res.status(300).redirect('/')
+    }
     return res.status(200).render('login', {
-        error: req.flash("error") || ''
+        error: req.flash("error") || '',
+        email: req.flash('email') || ''
     })
 })
 router.post('/login', async (req, res, next) => {
-    // email = username
     const { email, password } = req.body;
-    let emailSubfix = email.substring(email.indexOf("@"), email.length)
+    req.flash('email', email)
+
+    let emailSubfix = validator_API.checkEmailSubfix(email)
+    if (!emailSubfix.success) {
+        req.flash("error", emailSubfix.message)
+        return res.status(300).redirect('/accounts/login')
+    }
+    let emailObject = await validator_API.emailExist(email)
+    if (!emailObject.success) {
+        req.flash('error', emailObject.message)
+        return res.status(300).redirect('/accounts/login')
+    }
+    let passwordObject = await validator_API.checkPasswordEmail(email, password)
+    if (!passwordObject.success) {
+        req.flash('error', passwordObject.message)
+        return res.status(300).redirect('/accounts/login')
+    }
+    let emailExist = await AccountModel.findOne({ email: email })
+    if (!emailExist.is_validated) {
+        return res.json({
+            success: true
+        })
+    }
+    // let emailSubfix = email.substring(email.indexOf("@"), email.length)
     let { success, message } = await loginValidation(emailSubfix, email, password)
     if (!success) {
         req.flash("error", message)
@@ -184,6 +272,10 @@ router.post('/login', async (req, res, next) => {
     }
     req.session.username = email
     return res.status(200).redirect('/')
+})
+
+router.get('/email-validation', async (req, res, next) => {
+    
 })
 
 router.get("/create-email", async (req, res, next) => {

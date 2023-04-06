@@ -1,0 +1,151 @@
+<style>
+    body {
+        background: #f093fb;
+    }
+
+    .gradient-custom {
+        /* fallback for old browsers */
+        background: #f093fb;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+    }
+
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+        font-size: 1rem;
+        line-height: 2.15;
+        padding-left: .75em;
+        padding-right: .75em;
+    }
+
+    .card-registration .select-arrow {
+        top: 13px;
+    }
+</style>
+<div class="container-fluid">
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-12 col-lg-9 col-xl-7">
+                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                        <div class="card-body p-4 p-md-4">
+                            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">MyMail Registration Form</h3>
+                            <form action="/accounts/register" method="POST" id="registerForm">
+                                {{#if error}}
+                                <div class="alert alert-danger" role="alert">
+                                    {{error}}
+                                </div>
+                                {{/if}}
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+
+                                        <div class="form-outline">
+                                            <input type="text" id="firstName" name="firstName"
+                                                class="form-control form-control-lg" value="{{firstName}}" required />
+                                            <label class="form-label" for="firstName">First Name</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+
+                                        <div class="form-outline">
+                                            <input type="text" id="lastName" name="lastName"
+                                                class="form-control form-control-lg" value="{{lastName}}" required />
+                                            <label class="form-label" for="lastName">Last Name</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                                        <div class="form-outline datepicker w-100">
+                                            <input type="date" name="birthday" class="form-control form-control-lg"
+                                                id="birthdayDate" value="{{birthday}}" required />
+                                            <label for="birthdayDate" class="form-label">Birthday</label>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <h6 class="mb-2 pb-1">Gender: </h6>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="femaleGender" value="female" />
+                                            <label class="form-check-label" for="femaleGender">Female</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="maleGender" value="male" />
+                                            <label class="form-check-label" for="maleGender">Male</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="otherGender" value="other" checked required />
+                                            <label class="form-check-label" for="otherGender">Other</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 pb-2">
+
+                                        <div class="form-outline">
+                                            <input type="email" id="emailAddress" name="emailAddress"
+                                                class="form-control form-control-lg" value="{{emailAddress}}" required />
+                                            <label class="form-label" for="emailAddress">Email
+                                                (example@mymail.com)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4 pb-2">
+
+                                        <div class="form-outline">
+                                            <input type="tel" id="phoneNumber" name="phoneNumber"
+                                                class="form-control form-control-lg" value="{{phoneNumber}}" required />
+                                            <label class="form-label" for="phoneNumber">Phone Number</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 pb-2">
+
+                                        <div class="form-outline">
+                                            <input type="password" id="password" name="password"
+                                                class="form-control form-control-lg" required />
+                                            <label class="form-label" for="password">Password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4 pb-2">
+
+                                        <div class="form-outline">
+                                            <input type="password" id="password2" name="password2"
+                                                class="form-control form-control-lg" required />
+                                            <label class="form-label" for="password2">Re-enter Password</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    {{!-- <input class="btn btn-primary btn-lg" type="submit" value="Submit" /> --}}
+                                    <button type="submit" class="btn btn-primary btn-block mb-4"
+                                        form="registerForm">Sign in</button>
+                                </div>
+
+                                <div class="mt-3 text-center">
+                                    <p>A member? <a href="/accounts/login">Login</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -24,7 +24,7 @@ module.exports.loginValidation = async (subfix, username, password) => {
     }
     const userExist = await AccountModel.findOne({ username: username })
     if (!userExist) {
-        message = `${username} does not exit`
+        message = `${username} does not exist`
         return {
             success: false,
             message: message
