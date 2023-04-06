@@ -42,14 +42,15 @@ app.use(flash());
 
 // default routes
 app.get('/', (req, res, next) => {
-    const username = req.session.username
-    if (!username) {
+    const email = req.session.email
+    if (!email) {
         return res.status(300).redirect('/accounts/login')
     }
-    res.render('index', {
-        document: "Index",
-        title: "Demo"
-    })
+    return res.redirect('/accounts/home')
+    // res.render('index', {
+    //     document: "Index",
+    //     title: "Demo"
+    // })
 })
 
 

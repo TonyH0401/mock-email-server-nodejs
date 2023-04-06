@@ -2,23 +2,23 @@ const express = require('express')
 const router = express.Router()
 const AccountModel = require('../model/AccountModel');
 const EmailModel = require('../model/EmailModel');
-const { loginValidation } = require('../middlewares/login-validator');
 const validator_API = require('../middlewares/validator');
+const randomstring = require('randomstring');
 
 
 // /accounts/routes
-router.get('/create-demo-account', async (req, res, next) => {
-    try {
+// router.get('/create-demo-account', async (req, res, next) => {
+//     try {
 
-    } catch (error) {
-        let message = error
-        return res.status(500).render('error', {
-            document: "Mail Creation Error",
-            status: 500,
-            message: message
-        })
-    }
-})
+//     } catch (error) {
+//         let message = error
+//         return res.status(500).render('error', {
+//             document: "Mail Creation Error",
+//             status: 500,
+//             message: message
+//         })
+//     }
+// })
 
 // router.get("/", async (req, res, next) => {
 //     let success = true
@@ -162,7 +162,7 @@ router.get("/update", async (req, res, next) => {
 router.get('/register', async (req, res, next) => {
     const email = req.session.email
     if (email) {
-        return res.status(202).redirect('/')
+        return res.status(202).redirect('/accounts/home')
     }
     return res.status(200).render('register', {
         error: req.flash('error') || '',
@@ -232,7 +232,7 @@ router.post('/register', async (req, res, next) => {
 router.get('/login', (req, res, next) => {
     const email = req.session.email
     if (email) {
-        return res.status(300).redirect('/')
+        return res.status(300).redirect('/accounts/home')
     }
     return res.status(200).render('login', {
         error: req.flash("error") || '',
@@ -241,41 +241,115 @@ router.get('/login', (req, res, next) => {
 })
 router.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
-    req.flash('email', email)
-
-    let emailSubfix = validator_API.checkEmailSubfix(email)
-    if (!emailSubfix.success) {
-        req.flash("error", emailSubfix.message)
-        return res.status(300).redirect('/accounts/login')
-    }
-    let emailObject = await validator_API.emailExist(email)
-    if (!emailObject.success) {
-        req.flash('error', emailObject.message)
-        return res.status(300).redirect('/accounts/login')
-    }
-    let passwordObject = await validator_API.checkPasswordEmail(email, password)
-    if (!passwordObject.success) {
-        req.flash('error', passwordObject.message)
-        return res.status(300).redirect('/accounts/login')
-    }
-    let emailExist = await AccountModel.findOne({ email: email })
-    if (!emailExist.is_validated) {
-        return res.json({
-            success: true
+    try {
+        req.flash('email', email)
+        let emailSubfix = validator_API.checkEmailSubfix(email)
+        if (!emailSubfix.success) {
+            req.flash("error", emailSubfix.message)
+            return res.status(300).redirect('/accounts/login')
+        }
+        let emailObject = await validator_API.emailExist(email)
+        if (!emailObject.success) {
+            req.flash('error', emailObject.message)
+            return res.status(300).redirect('/accounts/login')
+        }
+        let passwordObject = await validator_API.checkPasswordEmail(email, password)
+        if (!passwordObject.success) {
+            req.flash('error', passwordObject.message)
+            return res.status(300).redirect('/accounts/login')
+        }
+        let emailExist = await AccountModel.findOne({ email: email })
+        if (!emailExist.is_validated) {
+            return res.status(300).render('email-validation', {
+                email: email
+            })
+        }
+        req.session.email = email
+        return res.status(200).redirect('/accounts/home')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Mail Login Error",
+            status: 500,
+            message: error
         })
     }
-    // let emailSubfix = email.substring(email.indexOf("@"), email.length)
-    let { success, message } = await loginValidation(emailSubfix, email, password)
-    if (!success) {
-        req.flash("error", message)
-        return res.status(300).redirect('/accounts/login')
+})
+router.post('/email-validation', async (req, res, next) => {
+    const { email, phoneNumber, password } = req.body
+    try {
+        let user = await AccountModel.findOne({ email: email })
+        if (!user) {
+            req.flash('error', 'User not found!')
+            return res.status(300).redirect('/accounts/login')
+        }
+        if (user.phone_number != phoneNumber) {
+            req.flash('error', 'Phone number is invalid in verification!')
+            return res.status(300).redirect('/accounts/login')
+        }
+        if (user.password != password) {
+            req.flash('error', 'Password is invalid in verification!')
+            return res.status(300).redirect('/accounts/login')
+        }
+        user.is_validated = true
+        let result = await user.save()
+        // req.session.email = email
+        return res.status(200).redirect('/accounts/login')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Email Validation Error",
+            status: 500,
+            message: error
+        })
     }
-    req.session.username = email
-    return res.status(200).redirect('/')
 })
 
-router.get('/email-validation', async (req, res, next) => {
-    
+router.get('/forgot-password', async (req, res, next) => {
+    const email = req.session.email
+    if (email) {
+        return res.status(200).redirect('/accounts/home')
+    }
+    return res.status(200).render('forgot-password', {
+        error: req.flash('error') || '',
+        success: req.flash('success') || ''
+    })
+})
+router.post('/forgot-password', async (req, res, ntext) => {
+    const { emailAddress, phone } = req.body
+
+    try {
+        if (!validator_API.checkEmailSubfix(emailAddress).success) {
+            req.flash('error', `${emailAddress} has invalid email subfix!`)
+            return res.status(500).redirect('/accounts/forgot-password')
+        }
+        let user = await AccountModel.findOne({ email: emailAddress })
+        if (!user) {
+            req.flash('error', `${emailAddress} does not exist!`)
+            return res.status(500).redirect('/accounts/forgot-password')
+        }
+        if (user.phone_number != phone) {
+            req.flash('error', 'Phone number does not exist!')
+            return res.status(500).redirect('/accounts/forgot-password')
+        }
+        let new_password = randomstring.generate().substring(0, 6)
+        user.password = new_password
+        let result = await user.save()
+        req.flash('success', `Your new password: ${new_password}`)
+        return res.status(200).redirect('/accounts/forgot-password')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Forgot Password Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+
+router.get('/home', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.status(300).redirect('/accounts/login')
+    }
+    return res.render('home')
 })
 
 router.get("/create-email", async (req, res, next) => {
