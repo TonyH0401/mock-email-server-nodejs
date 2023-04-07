@@ -556,6 +556,26 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
     })
 })
 
+
+router.get('/view-page', async (req, res, next) => {
+    let data
+    await fetch('https://api.quotable.io/random?maxLength=50')
+        .then(async (response) => {
+            data = await response.json()
+        })
+        .catch((err) => {
+            console.log(err)
+            data = {
+                content: "No more quote!",
+                author: "System"
+            }
+        })
+    let result = data.content + " - " + data.author
+    return res.render('create-email', {
+        quote: result
+    })
+})
+
 // router.get("/create-email", async (req, res, next) => {
 //     try {
 //         // const { username } = req.session.username;

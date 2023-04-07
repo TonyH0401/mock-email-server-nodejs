@@ -1,7 +1,45 @@
-<div class="container-fluid">
-    <form action="" method="post"></form>
+<style>
+    body {
+        background-image: url("/images/server-images/20475201.jpg");
+        height: 100%;
+    }
 
-    <div>
-        <p>{{data}}</p>
+    .form-cover {
+        background: rgb(238, 174, 202);
+        background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+        border-radius: 50px;
+    }
+</style>
+
+<div class="container-fluid w-50 p-3 form-cover">
+    <div class="d-flex justify-content-center ">
+        <div class="w-50">
+            {{!-- <div class="d-flex justify-content-center">
+                <h3>Herllo</h3>
+            </div> --}}
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center"><i>{{quote}}</i></h3>
+            <form action="#" method="post" id="">
+                <!-- Name input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="form4Example1" class="form-control" />
+                    <label class="form-label" for="form4Example1">Name</label>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="form4Example2" class="form-control" />
+                    <label class="form-label" for="form4Example2">Email address</label>
+                </div>
+
+                <!-- Message input -->
+                <div class="form-outline mb-4">
+                    <textarea class="form-control" id="form4Example3" rows="4"></textarea>
+                    <label class="form-label" for="form4Example3">Message</label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4" form="">Send</button>
+            </form>
+        </div>
     </div>
 </div>
