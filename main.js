@@ -57,6 +57,8 @@ app.get('/', (req, res, next) => {
 // New router Define
 const AccountRouter = require('./routers/AccountRouter');
 app.use('/accounts', AccountRouter)
+const EmailRouter = require('./routers/EmailRouter');
+app.use('/emails', EmailRouter)
 
 
 // error handling

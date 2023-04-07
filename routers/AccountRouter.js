@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const router = express.Router()
 const AccountModel = require('../model/AccountModel');
@@ -6,6 +7,8 @@ const validator_API = require('../middlewares/validator');
 const randomstring = require('randomstring');
 const function_API = require('../middlewares/function');
 const moment = require('moment');
+const fetch = require('node-fetch');
+const { LOCALHOST } = process.env;
 
 
 // /accounts/routes
@@ -510,30 +513,73 @@ router.post('/change-account-info', async (req, res, next) => {
     }
 })
 
-router.get("/create-email", async (req, res, next) => {
-    try {
-        // const { username } = req.session.username;
-        let username = "admin"
-        let email = new EmailModel({
-            sender: username
-        })
-        let result = await email.save()
-        // console.log(result)
-        // return res.status(200).json({
-        //     data: result
-        // })
-        return res.status(200).render('create-email', {
-            data: result.sender
-        })
-    } catch (error) {
-        let message = error
+router.get('/email', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    let data = { email }
+    let response = await fetch(LOCALHOST + '/emails/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    let result = await response.json()
+    if (!result.success) {
         return res.status(500).render('error', {
-            document: "Mail Creation Error",
+            document: "Account Email Error",
             status: 500,
-            message: message
+            message: result.message
         })
     }
+    return res.redirect(`/accounts/email/create-email/${result.data._id}`)
 })
+router.get('/email/create-email/:email_id', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    const { email_id } = req.params
+    let emailExit = await EmailModel.findOne({ _id: email_id })
+    if (!emailExit) {
+        return res.status(500).render('error', {
+            document: "Email not found!",
+            status: 404,
+            message: "Email does not exist!"
+        })
+    }
+    console.log('reload')
+    return res.json({
+        data: email_id
+    })
+})
+
+// router.get("/create-email", async (req, res, next) => {
+//     try {
+//         // const { username } = req.session.username;
+//         let username = "admin"
+//         let email = new EmailModel({
+//             sender: username
+//         })
+//         let result = await email.save()
+//         // console.log(result)
+//         // return res.status(200).json({
+//         //     data: result
+//         // })
+//         return res.status(200).render('create-email', {
+//             data: result.sender
+//         })
+//     } catch (error) {
+//         let message = error
+//         return res.status(500).render('error', {
+//             document: "Mail Creation Error",
+//             status: 500,
+//             message: message
+//         })
+//     }
+// })
 
 
 module.exports = router

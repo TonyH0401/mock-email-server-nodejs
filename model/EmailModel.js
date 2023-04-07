@@ -7,13 +7,14 @@ const EmailModel = new Schema(
         subject: String,
         body: String,
         receiver: [{
-            username: { type: String },
+            email: { type: String },
             is_read: { type: Boolean, default: false },
             is_star: { type: Boolean, default: false },
             is_delete: { type: Boolean, default: false }
+            // is_spam: { type: Boolean, default: false }
         }],
-        is_star: { type: Boolean, default: false },
-        normal_email: { type: Boolean, default: true }
+        is_star_sender: { type: Boolean, default: false },
+        email_type: { type: String, default: "draft" }
     },
     {
         timestamps: true
