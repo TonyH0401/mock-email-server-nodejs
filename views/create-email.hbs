@@ -20,7 +20,8 @@
                 {{error}}
             </div>
             {{/if}}
-            <form action="#" method="post" id="">
+            
+            <form action="/emails/send-email" method="post" id="sendEmail">
                 <div class="form-outline mb-4" hidden>
                     <input type="text" id="emailId" name="emailId" value={{email_id}} class="form-control" />
                 </div>
@@ -32,17 +33,17 @@
 
                 <!-- Subject input -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="subject" name="subject" class="form-control" />
+                    <input type="text" id="subject" name="subject" class="form-control" value={{subject}} />
                     <label class="form-label" for="subject">Email Subject</label>
                 </div>
                 <!-- Message input -->
                 <div class="form-outline mb-4">
-                    <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                    <textarea class="form-control" id="message" name="message" rows="4">{{text}}</textarea>
                     <label class="form-label" for="message">Message</label>
                 </div>
 
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4" form="">Send</button>
+                <button type="submit" class="btn btn-primary btn-block mb-4" form="sendEmail">Send</button>
             </form>
         </div>
     </div>

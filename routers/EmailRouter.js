@@ -32,7 +32,6 @@ router.post('/create', async (req, res, next) => {
 })
 router.put('/update', async (req, res, next) => {
     const { subject, text, emailId } = req.body
-    // update in database
     try {
         let email = await EmailModel.findOne({ _id: emailId })
         if (!email) {
@@ -58,6 +57,12 @@ router.put('/update', async (req, res, next) => {
             message: error
         })
     }
+})
+router.post('/send-email', async (req, res, next) => {
+    const { emailId, email, subject, message } = req.body
+    return res.json({
+        data: req.body
+    })
 })
 
 

@@ -551,9 +551,13 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
         })
     }
     let quote = await function_API.getQuotes()
+    let subject = emailExit.subject
+    let text = emailExit.body
     return res.render('create-email', {
         quote: quote,
         email_id: email_id,
+        subject: subject,
+        text: text,
         error: req.flash('error') || ''
     })
 })
