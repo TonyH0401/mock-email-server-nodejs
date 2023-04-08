@@ -30,6 +30,36 @@ router.post('/create', async (req, res, next) => {
         })
     }
 })
+router.put('/update', async (req, res, next) => {
+    const { subject, text, emailId } = req.body
+    // update in database
+    try {
+        let email = await EmailModel.findOne({ _id: emailId })
+        if (!email) {
+            return res.status(500).render('error', {
+                document: "Update Draft Error, Email not found!",
+                status: 500,
+                message: error
+            })
+        }
+        email.subject = subject
+        email.body = text
+        let result = await email.save()
+        return res.json({
+            success: true,
+            message: "Saved draft!"
+            // text: text,
+            // emailId: emailId
+        })
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Update Draft Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+
 
 
 module.exports = router

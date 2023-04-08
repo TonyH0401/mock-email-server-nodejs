@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 module.exports.randomPropety = (obj) => {
     var keys = Object.keys(obj);
     let random = keys.length * Math.random() << 0
@@ -15,4 +17,20 @@ module.exports.questionTopic = (key) => {
     if (key == 'nickname')
         question = "What is your young nickname?"
     return question
+}
+module.exports.getQuotes = async () => {
+    let data
+    await fetch('https://api.quotable.io/random?maxLength=50')
+        .then(async (response) => {
+            data = await response.json()
+        })
+        .catch((err) => {
+            console.log(err)
+            data = {
+                content: "No more quote!",
+                author: "System"
+            }
+        })
+    let result = data.content + " - " + data.author
+    return result
 }

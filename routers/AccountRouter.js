@@ -550,27 +550,17 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
             message: "Email does not exist!"
         })
     }
-    console.log('reload')
-    return res.json({
-        data: email_id
+    let quote = await function_API.getQuotes()
+    return res.render('create-email', {
+        quote: quote,
+        email_id: email_id,
+        error: req.flash('error') || ''
     })
 })
 
 
 router.get('/view-page', async (req, res, next) => {
-    let data
-    await fetch('https://api.quotable.io/random?maxLength=50')
-        .then(async (response) => {
-            data = await response.json()
-        })
-        .catch((err) => {
-            console.log(err)
-            data = {
-                content: "No more quote!",
-                author: "System"
-            }
-        })
-    let result = data.content + " - " + data.author
+    let result = await function_API.getQuotes()
     return res.render('create-email', {
         quote: result
     })
