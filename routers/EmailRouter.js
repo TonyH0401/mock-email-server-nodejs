@@ -58,8 +58,12 @@ router.put('/update', async (req, res, next) => {
         })
     }
 })
+// not finished
 router.post('/send-email', async (req, res, next) => {
     const { emailId, email, subject, message } = req.body
+    
+    // check email is valid
+    // check block and blocked
     return res.json({
         data: req.body
     })

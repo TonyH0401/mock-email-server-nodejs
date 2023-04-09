@@ -213,7 +213,6 @@ router.post('/register', async (req, res, next) => {
             req.flash('error', userObject.message)
             return res.status(300).redirect('/accounts/register')
         }
-
         let user = new AccountModel({
             first_name: firstName,
             last_name: lastName,
@@ -435,9 +434,32 @@ router.get('/security-question', async (req, res, next) => {
     })
 })
 router.post('/security-question', async (req, res, next) => {
-    // console.log(req.body)
     const { petName, nickName, favFood } = req.body
     const email = req.session.email
+    if (petName.length * nickName.length * favFood.length == 0) {
+        return res.json({
+            success: false,
+            message: "Security Questions can not be empty!"
+        })
+    }
+    if (petName.length == 0) {
+        return res.json({
+            success: false,
+            message: "Question 1 can not be empty!"
+        })
+    }
+    if (nickName.length == 0) {
+        return res.json({
+            success: false,
+            message: "Question 2 can not be empty!"
+        })
+    }
+    if (favFood.length == 0) {
+        return res.json({
+            success: false,
+            message: "Question 3 can not be empty!"
+        })
+    }
     let user = await AccountModel.findOne({ email: email })
     user.question.pet_name = petName
     user.question.nickname = nickName
@@ -563,12 +585,47 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
 })
 
 
+router.get('/draft-email', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    let emailList = await EmailModel.find({
+        sender: email,
+        email_type: "draft"
+    })
+    console.log(emailList)
+
+    return res.render('draft-email', {
+        document: "Draft Emails",
+        user_email: email,
+        emailList: emailList
+    })
+})
+
+router.get('/view-email-detail', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    return res.render('create-email', {
+        quote: quote,
+        email_id: email_id,
+        subject: subject,
+        text: text,
+        error: req.flash('error') || ''
+    })
+})
+
+
+
 router.get('/view-page', async (req, res, next) => {
     let result = await function_API.getQuotes()
     return res.render('create-email', {
         quote: result
     })
 })
+
 
 // router.get("/create-email", async (req, res, next) => {
 //     try {

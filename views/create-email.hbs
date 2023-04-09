@@ -20,20 +20,20 @@
                 {{error}}
             </div>
             {{/if}}
-            
+
             <form action="/emails/send-email" method="post" id="sendEmail">
                 <div class="form-outline mb-4" hidden>
-                    <input type="text" id="emailId" name="emailId" value={{email_id}} class="form-control" />
+                    <input type="text" id="emailId" name="emailId" value="{{email_id}}" class="form-control" />
                 </div>
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                    <input type="email" id="email" name="email" class="form-control" required />
+                    <input type="text" id="email" name="email" class="form-control" required />
                     <label class="form-label" for="email">Receiver Email Addresses</label>
                 </div>
 
                 <!-- Subject input -->
                 <div class="form-outline mb-4">
-                    <input type="text" id="subject" name="subject" class="form-control" value={{subject}} />
+                    <input type="text" id="subject" name="subject" class="form-control" value="{{subject}}" />
                     <label class="form-label" for="subject">Email Subject</label>
                 </div>
                 <!-- Message input -->

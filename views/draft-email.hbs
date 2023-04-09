@@ -1,0 +1,130 @@
+<style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+        margin-left: 160px;
+        /* Same as the width of the sidenav */
+        font-size: 28px;
+        /* Increased text to enable scrolling */
+        padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="sidenav">
+        <a href="/accounts/home">About</a>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="/accounts/email" target="_blank">Create Email</a>
+        <a href="/accounts/draft-email" style="color:white; background-color:gray">Draft Email</a>
+        <a href="/accounts/change-password">Change Password</a>
+        <a href="/accounts/security-question">Security Question</a>
+    </div>
+    <div class="card shadow">
+        <div class="pt-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">Draft Emails of <b>{{user_email}}</b></h3>
+        </div>
+        <div class='card-body'>
+            <table class='table table-hover data-table'>
+                <thead class='thead-light'>
+                    <tr>
+                        {{!-- <th scope='col'>Hình ảnh</th>
+                        <th scope='col'>Tên</th>
+                        <th scope='col'>Mã</th>
+                        <th scope='col'>Danh mục</th>
+                        <th scope='col'>Giá</th>
+                        <th scope='col'>Độ ưu tiên</th>
+                        <th scope='col'>Điều chỉnh</th>
+                        <th scope='col'></th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if emailList}}
+                    {{#each emailList}}
+                    <tr>
+                        <td style="color: red; width: 10%">draft email</td>
+                        <td style="width: 15%"><a href="#{{_id}}">{{subject}}</a></td>
+                        <td style="width: 25%">{{body}}</td>
+                        <td class='d-flex'>
+                            <!-- Button trigger modal -->
+                            {{!-- <a class='text-info w-100' href='/admin/preview-product/{{pid}}'>
+                                <i class='fa-regular fa-eye fa-lg'></i>
+                            </a> --}}
+                            <!-- Button trigger modal -->
+                            {{!-- <a class='text-warning w-100' href='/admin/update-product/{{pid}}'>
+                                <i class='fas fa-edit fa-lg'></i>
+                            </a>
+                            <!-- Button trigger modal -->
+                            <a style="cursor: pointer" class='text-danger w-100 delBtn'
+                                data-available="{{is_available}}" data-pid="{{pid}}" data-toggle='modal'
+                                data-target='#deleteModal'
+                                onclick="$('#deleteBtn').attr('href', '/admin/delete-product/{{pid}}')">
+                                <i class='fas fa-trash fa-lg'></i>
+                            </a> --}}
+                        </td>
+                        {{!-- <td>
+                            <label class="switch">
+                                <input class="switchBtn" {{#if is_available}}checked{{/if}} type="checkbox">
+
+                                <span class="slider"></span>
+                                <input class="switch_pid" type="hidden" value="{{pid}}">
+                                <input class="switch_available" type="hidden" value="{{is_available}}">
+                            </label>
+                        </td> --}}
+                    </tr>
+                    {{/each}}
+                    {{else}}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

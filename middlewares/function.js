@@ -34,3 +34,8 @@ module.exports.getQuotes = async () => {
     let result = data.content + " - " + data.author
     return result
 }
+module.exports.emailStringToArrayObject = (emailString) => {
+    let valid = []
+    let invalid = []
+    
+}

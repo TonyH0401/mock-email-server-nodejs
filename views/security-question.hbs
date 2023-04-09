@@ -81,23 +81,6 @@
                 onclick="confirmation()">Enable</button>
             {{/if}}
         </form>
-
-        {{!-- <div id="popup">
-            <form action="" method="post">
-                <div class="form-outline mb-4">
-                    <label class="form-label" for="password1">Password</label>
-                    <input type="password" id="password1" name="password1" class="form-control" required />
-                </div>
-                <div class="form-outline mb-4">
-                    <label class="form-label" for="password2">Re-enter Password</label>
-                    <input type="password" id="password2" name="password2" class="form-control" required />
-                </div>
-                <button type="submit" class="btn btn-outline-success btn-block mb-4" form="">Confirm
-                    Change</button>
-                <button type="submit" class="btn btn-outline-danger btn-block mb-4" form="">Cancel
-                    Change</button>
-            </form>
-        </div> --}}
     </div>
 </div>
 
@@ -118,10 +101,17 @@
                     return result.json()
                 })
                 .then(data => {
-                    console.log(data.success)
-                    location.reload()
+                    if (!data.success) {
+                        alert(data.message)
+                        location.reload()
+                    }
+                    else {
+                        console.log(data.success)
+                        location.reload()
+                    }
                 })
                 .catch(err => {
+                    console.log(err)
                     alert('Error happened when fetch!')
                 })
         }
