@@ -66,8 +66,7 @@ router.post('/send-email', async (req, res, next) => {
         req.flash('error', emailValid.message)
         return res.redirect(`/accounts/email/create-email/${emailId}`)
     }
-    // check block and blocked email
-
+    // check block and blocked email - not fished
     let emailExist = await EmailModel.findOne({ _id: emailId })
     if (!emailExist) {
         req.flash('error', 'Email ID does not exist!')
@@ -81,7 +80,63 @@ router.post('/send-email', async (req, res, next) => {
     req.flash('success', 'Sent Email!')
     return res.redirect('/accounts/home')
 })
-
+router.get('/update-is-read/:emailId/:status', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    const { emailId, status } = req.params
+    try {
+        let emailExist = await EmailModel.findOne({ _id: emailId })
+        emailExist.receiver.find(x => x.email == email).is_read = (status == "true") ? true : false
+        let result = await emailExist.save()
+        return res.redirect('/accounts/receive-email')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Update Email Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+router.get('/update-is-star/:emailId/:status', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    const { emailId, status } = req.params
+    try {
+        let emailExist = await EmailModel.findOne({ _id: emailId })
+        emailExist.receiver.find(x => x.email == email).is_star = (status == "true") ? true : false
+        let result = await emailExist.save()
+        return res.redirect('/accounts/receive-email')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Update Email Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+router.get('/update-is-deleted/:emailId/:status', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    const { emailId, status } = req.params
+    try {
+        let emailExist = await EmailModel.findOne({ _id: emailId })
+        emailExist.receiver.find(x => x.email == email).is_delete = (status == "true") ? true : false
+        let result = await emailExist.save()
+        return res.redirect('/accounts/receive-email')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Update Email Error",
+            status: 500,
+            message: error
+        })
+    }
+})
 
 
 module.exports = router

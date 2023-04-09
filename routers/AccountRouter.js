@@ -157,6 +157,7 @@ router.get('/register', async (req, res, next) => {
         return res.status(202).redirect('/accounts/home')
     }
     return res.status(200).render('register', {
+        document: 'Register page',
         error: req.flash('error') || '',
         firstName: req.flash('firstName') || '',
         lastName: req.flash('lastName') || '',
@@ -525,6 +526,7 @@ router.post('/change-account-info', async (req, res, next) => {
     }
 })
 
+
 router.get('/email', async (req, res, next) => {
     let email = req.session.email
     if (!email) {
@@ -582,6 +584,42 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
 })
 
 
+router.get('/receive-email', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    let emailList = await EmailModel.find({ "receiver.email": email })
+    let data = []
+    data = emailList.map(d => {
+        return {
+            _id: d._id,
+            sender: d.sender,
+            is_star_send: d.is_star_send,
+            email_type: d.email_type,
+            is_read: d.receiver.find(x => x.email == email).is_read ? true : '',
+            is_star: d.receiver.find(x => x.email == email).is_star ? true : '',
+            is_delete: d.receiver.find(x => x.email == email).is_delete ? true : '',
+            normal_email: d.normal_email,
+            createdAt: d.createdAt,
+            body: d.body,
+            subject: d.subject,
+            emailNotation: "Received"
+        }
+    })
+    return res.render('view-email-list', {
+        document: "Received Emails",
+        user_email: email,
+        emailList: data
+    })
+})
+
+
+
+
+
+
+
 router.get('/draft-email', async (req, res, next) => {
     let email = req.session.email
     if (!email) {
@@ -596,7 +634,7 @@ router.get('/draft-email', async (req, res, next) => {
     return res.render('draft-email', {
         document: "Draft Emails",
         user_email: email,
-        emailList: emailList
+        emailList: emailList,
     })
 })
 
