@@ -660,18 +660,14 @@ router.get('/send-email', async (req, res, next) => {
     data = emailList.map(d => {
         return {
             _id: d._id,
-            sender: d.sender,
+            receiver: function_API.getListReceiverFromArray(d.receiver).substring(0, 10),
             is_star_send: d.is_star_sender,
             is_delete_send: d.is_delete_sender,
             email_type: d.email_type,
-            is_read: d.receiver.find(x => x.email == email).is_read ? true : '',
-            is_star: d.receiver.find(x => x.email == email).is_star ? true : '',
-            is_delete: d.receiver.find(x => x.email == email).is_delete ? true : '',
             createdAt: d.createdAt,
-            body: d.body,
-            subject: d.subject,
-            emailNotation: "Send",
-            editOption: true
+            body: d.body.substring(0, 10),
+            subject: d.subject.substring(0, 5),
+            emailNotation: "Send"
         }
     })
     return res.render('view-email-list-send', {
@@ -682,8 +678,106 @@ router.get('/send-email', async (req, res, next) => {
         emailPlaceholderReceive: true
     })
 })
-
-
+router.get('/star-email', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    // draft send
+    let data = []
+    let emailListStarSender = await EmailModel.find({
+        sender: email,
+        is_star_sender: true,
+        is_delete_sender: false,
+    })
+    data = emailListStarSender.map(d => {
+        let draft_sender_receiver_temp = (d.email_type == "draft") ? email : function_API.getListReceiverFromArray(d.receiver).substring(0, 10);
+        let emailNotation_temp = (d.email_type == "draft") ? "Draft" : "Send";
+        return {
+            _id: d._id,
+            draft_sender_receiver: draft_sender_receiver_temp,
+            is_star_send: d.is_star_sender,
+            createdAt: d.createdAt,
+            body: d.body,
+            subject: d.subject.substring(0, 5),
+            emailNotation: emailNotation_temp
+        }
+    })
+    // receive
+    let emailListStarReceiver = await EmailModel.find({
+        "receiver.email": email,
+        "receiver.is_star": true,
+        "receiver.is_delete": false
+    })
+    let data2 = []
+    data2 = emailListStarReceiver.map(d => {
+        return {
+            _id: d._id,
+            draft_sender_receiver: d.sender,
+            is_star: d.receiver.find(x => x.email == email).is_star,
+            createdAt: d.createdAt,
+            body: d.body,
+            subject: d.subject.substring(0, 5),
+            emailNotation: "Receive"
+        }
+    })
+    let data3 = data2.concat(data)
+    return res.render('view-email-list-star', {
+        document: "Star Emails",
+        category: "Star Emails of ",
+        user_email: email,
+        emailList: data3
+    })
+})
+router.get('/delete-email', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    // draft send
+    let data = []
+    let emailListStarSender = await EmailModel.find({
+        sender: email,
+        is_delete_sender: true
+    })
+    data = emailListStarSender.map(d => {
+        let draft_sender_receiver_temp = (d.email_type == "draft") ? email : function_API.getListReceiverFromArray(d.receiver).substring(0, 10);
+        let emailNotation_temp = (d.email_type == "draft") ? "Draft" : "Send";
+        return {
+            _id: d._id,
+            draft_sender_receiver: draft_sender_receiver_temp,
+            is_delete_send: d.is_delete_sender,
+            createdAt: d.createdAt,
+            body: d.body,
+            subject: d.subject.substring(0, 5),
+            emailNotation: emailNotation_temp
+        }
+    })
+    // receive
+    let emailListStarReceiver = await EmailModel.find({
+        "receiver.email": email,
+        "receiver.is_delete": true
+    })
+    let data2 = []
+    data2 = emailListStarReceiver.map(d => {
+        return {
+            _id: d._id,
+            draft_sender_receiver: d.sender,
+            is_delete: d.receiver.find(x => x.email == email).is_delete,
+            createdAt: d.createdAt,
+            body: d.body,
+            subject: d.subject.substring(0, 5),
+            emailNotation: "Receive"
+        }
+    })
+    let data3 = data2.concat(data)
+    return res.render('view-email-list-delete', {
+        document: "Delete Emails",
+        category: "Delete Emails of ",
+        user_email: email,
+        emailList: data3
+    })
+})
 
 
 

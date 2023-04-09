@@ -53,8 +53,10 @@
         <a href="#clients">Clients</a>
         <a href="/accounts/email" target="_blank">Create Email</a>
         <a href="/accounts/receive-email">Receive Email</a>
-        <a href="/accounts/send-email" style="color:white; background-color:gray">Send Email</a>
+        <a href="/accounts/send-email">Send Email</a>
         <a href="/accounts/draft-email">Draft Email</a>
+        <a href="/accounts/star-email">Star Email</a>
+        <a href="/accounts/delete-email" style="color:white; background-color:gray">Deleted Email</a>
         <a href="/accounts/change-password">Change Password</a>
         <a href="/accounts/security-question">Security Question</a>
     </div>
@@ -76,36 +78,30 @@
                 <tbody>
                     {{#if emailList}}
                     {{#each emailList}}
-                    {{#unless is_delete_send}}
                     <tr>
                         <td style="color: red; width: 8%">{{emailNotation}}</td>
-                        <td style="width: 15%">{{receiver}}</td>
+                        <td style="width: 15%">{{draft_sender_receiver}}</td>
                         <td id="time" hidden>{{createdAt}}</td>
                         <td style="width: 15%"><a href="#{{_id}}">{{subject}}</a></td>
                         <td style="width: 25%">{{body}}</td>
                         <td class='d-flex'>
                             {{!--is star --}}
-                            {{#unless is_star_send}}
-                            <a class='text-warning w-25' href='/emails/update-is-star-send-send/{{_id}}/true'>
-                                <i class="fa-regular fa-star"></i>
-                            </a>
-                            {{/unless}}
-                            {{#if is_star_send}}
-                            <a class='text-warning w-25' href='/emails/update-is-star-send-send/{{_id}}/false'>
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            {{/if}}
-                            {{!--is delete --}}
-                            <a class='text-danger w-25' href='/emails/update-is-deleted-send-send/{{_id}}/true'>
+                            {{#if is_delete_send}}
+                            <a class='text-danger w-25' href='/emails/update-is-deleted-email-section-sender/{{_id}}/false'>
                                 <i class="fa-solid fa-trash"></i>
                             </a>
+                            {{/if}}
+                            {{#if is_delete}}
+                            <a class='text-danger w-25' href='/emails/update-is-deleted-email-section/{{_id}}/false'>
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                            {{/if}}
                             {{!--is meta data --}}
                             <a class='text-primary w-25' href='#' id="meta-data">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </a>
                         </td>
                     </tr>
-                    {{/unless}}
                     {{/each}}
                     {{else}}
                     <tr>

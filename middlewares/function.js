@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const AccountModel = require('../model/AccountModel');
+const EmailModel = require('../model/EmailModel');
 
 module.exports.randomPropety = (obj) => {
     var keys = Object.keys(obj);
@@ -58,4 +59,11 @@ module.exports.emailStringToArrayObject = async (emailString) => {
         success: true,
         data: validEmails
     }
+}
+module.exports.getListReceiverFromArray = (receiver) => {
+    let receiverList = []
+    for (let index = 0; index < receiver.length; index++) {
+        receiverList.push(receiver[index].email);
+    }
+    return receiverList.toLocaleString()
 }
