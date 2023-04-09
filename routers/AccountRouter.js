@@ -595,31 +595,27 @@ router.get('/receive-email', async (req, res, next) => {
         return {
             _id: d._id,
             sender: d.sender,
-            is_star_send: d.is_star_send,
+            is_star_send: d.is_star_sender,
+            is_delete_send: d.is_delete_sender,
             email_type: d.email_type,
             is_read: d.receiver.find(x => x.email == email).is_read ? true : '',
             is_star: d.receiver.find(x => x.email == email).is_star ? true : '',
             is_delete: d.receiver.find(x => x.email == email).is_delete ? true : '',
-            normal_email: d.normal_email,
             createdAt: d.createdAt,
             body: d.body,
             subject: d.subject,
-            emailNotation: "Received"
+            emailNotation: "Received",
+            editOption: true
         }
     })
     return res.render('view-email-list', {
         document: "Received Emails",
+        category: "Received Emails of ",
         user_email: email,
-        emailList: data
+        emailList: data,
+        emailPlaceholderReceive: true
     })
 })
-
-
-
-
-
-
-
 router.get('/draft-email', async (req, res, next) => {
     let email = req.session.email
     if (!email) {
@@ -629,14 +625,70 @@ router.get('/draft-email', async (req, res, next) => {
         sender: email,
         email_type: "draft"
     })
-    console.log(emailList)
-
-    return res.render('draft-email', {
+    let data = []
+    data = emailList.map(d => {
+        return {
+            _id: d._id,
+            sender: d.sender,
+            is_star_send: d.is_star_sender,
+            is_delete_send: d.is_delete_sender,
+            email_type: d.email_type,
+            createdAt: d.createdAt,
+            body: d.body,
+            subject: d.subject,
+            emailNotation: "Draft"
+        }
+    })
+    return res.render('view-email-list', {
         document: "Draft Emails",
+        category: "Draft Emails of ",
         user_email: email,
-        emailList: emailList,
+        emailList: data,
+        emailPlaceholderDraft: true
     })
 })
+router.get('/send-email', async (req, res, next) => {
+    let email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    let emailList = await EmailModel.find({
+        sender: email,
+        email_type: "send"
+    })
+    let data = []
+    data = emailList.map(d => {
+        return {
+            _id: d._id,
+            sender: d.sender,
+            is_star_send: d.is_star_sender,
+            is_delete_send: d.is_delete_sender,
+            email_type: d.email_type,
+            is_read: d.receiver.find(x => x.email == email).is_read ? true : '',
+            is_star: d.receiver.find(x => x.email == email).is_star ? true : '',
+            is_delete: d.receiver.find(x => x.email == email).is_delete ? true : '',
+            createdAt: d.createdAt,
+            body: d.body,
+            subject: d.subject,
+            emailNotation: "Send",
+            editOption: true
+        }
+    })
+    return res.render('view-email-list-send', {
+        document: "Send Emails",
+        category: "Send Emails of ",
+        user_email: email,
+        emailList: data,
+        emailPlaceholderReceive: true
+    })
+})
+
+
+
+
+
+
+
 
 router.get('/view-email-detail', async (req, res, next) => {
     let email = req.session.email

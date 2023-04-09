@@ -14,6 +14,7 @@ const EmailModel = new Schema(
             // is_spam: { type: Boolean, default: false }
         }],
         is_star_sender: { type: Boolean, default: false },
+        is_delete_sender: { type: Boolean, default: false },
         email_type: { type: String, default: "draft" }
     },
     {

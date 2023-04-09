@@ -66,7 +66,7 @@ router.post('/send-email', async (req, res, next) => {
         req.flash('error', emailValid.message)
         return res.redirect(`/accounts/email/create-email/${emailId}`)
     }
-    // check block and blocked email - not fished
+    // check block and blocked email - not finished
     let emailExist = await EmailModel.findOne({ _id: emailId })
     if (!emailExist) {
         req.flash('error', 'Email ID does not exist!')
@@ -137,6 +137,45 @@ router.get('/update-is-deleted/:emailId/:status', async (req, res, next) => {
         })
     }
 })
+router.get('/update-is-star-send/:emailId/:status', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    const { emailId, status } = req.params
+    try {
+        let emailExist = await EmailModel.findOne({ _id: emailId })
+        emailExist.is_star_sender = (status == "true") ? true : false
+        let result = await emailExist.save()
+        return res.redirect('/accounts/draft-email')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Update Email Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+router.get('/update-is-deleted-send/:emailId/:status', async (req, res, next) => {
+    const email = req.session.email
+    if (!email) {
+        return res.status(202).redirect('/accounts/home')
+    }
+    const { emailId, status } = req.params
+    try {
+        let emailExist = await EmailModel.findOne({ _id: emailId })
+        emailExist.is_delete_sender = (status == "true") ? true : false
+        let result = await emailExist.save()
+        return res.redirect('/accounts/draft-email')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Update Email Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+
 
 
 module.exports = router
