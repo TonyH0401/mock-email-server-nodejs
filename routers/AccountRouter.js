@@ -780,20 +780,19 @@ router.get('/delete-email', async (req, res, next) => {
 })
 
 
-
-
-
-
-router.get('/view-email-detail', async (req, res, next) => {
+router.get('/view-email-detail/:emailId', async (req, res, next) => {
+    const { emailId } = req.params
     let email = req.session.email
     if (!email) {
         return res.status(202).redirect('/accounts/home')
     }
-    return res.render('create-email', {
-        quote: quote,
-        email_id: email_id,
-        subject: subject,
-        text: text,
+    let emailExist = await EmailModel.findOne({ _id: emailId })
+    return res.render('view-email-detail', {
+        document: "Detail View",
+        email_id: emailExist._id,
+        // email: function_API.getListReceiverFromArray()
+        // subject: subject,
+        // text: text,
         error: req.flash('error') || ''
     })
 })
