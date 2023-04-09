@@ -787,15 +787,45 @@ router.get('/view-email-detail/:emailId', async (req, res, next) => {
         return res.status(202).redirect('/accounts/home')
     }
     let emailExist = await EmailModel.findOne({ _id: emailId })
-    return res.render('view-email-detail', {
-        document: "Detail View",
-        email_id: emailExist._id,
-        // email: function_API.getListReceiverFromArray()
-        // subject: subject,
-        // text: text,
+    if (emailExist.email_type != "draft") {
+        let data = {
+            _id: emailExist._id,
+            sender: emailExist.sender,
+            subject: emailExist.subject,
+            body: emailExist.body,
+            receiver: function_API.getListReceiverFromArray(emailExist.receiver),
+        }
+        return res.render('view-email-detail', {
+            document: "Detail View",
+            data: data,
+            error: req.flash('error') || ''
+        })
+    }
+    return res.redirect(`/accounts/email/create-email/${emailId}`)
+})
+router.post('/reply-forward', async (req, res, next) => {
+    const { emailID, emailSender, emailReceive, message, reply, forward } = req.body
+    if(reply) {
+        console.log("reply")
+    }
+    if(forward) {
+        let newMessage = `${message}`
+        console.log("forward")
+    }
+    return res.render('reply-forward-email', {
+        subject: "",
+        email_id: email_id,
+        subject: subject,
+        text: text,
         error: req.flash('error') || ''
     })
+    // return res.json({
+    //     data: req.body
+    // })
 })
+
+
+
 
 
 

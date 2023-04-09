@@ -82,17 +82,19 @@
                         <td style="color: red; width: 8%">{{emailNotation}}</td>
                         <td style="width: 15%">{{draft_sender_receiver}}</td>
                         <td id="time" hidden>{{createdAt}}</td>
-                        <td style="width: 15%"><a href="#{{_id}}">{{subject}}</a></td>
+                        <td style="width: 15%"><a href="/accounts/view-email-detail/{{_id}}"
+                                target="_blank">{{subject}}</a></td>
                         <td style="width: 25%">{{body}}</td>
                         <td class='d-flex'>
                             {{!--is star --}}
                             {{#if is_delete_send}}
-                            <a class='text-danger w-25' href='/emails/update-is-deleted-email-section-sender/{{_id}}/false'>
+                            <a class='text-success w-25'
+                                href='/emails/update-is-deleted-email-section-sender/{{_id}}/false'>
                                 <i class="fa-solid fa-trash"></i>
                             </a>
                             {{/if}}
                             {{#if is_delete}}
-                            <a class='text-danger w-25' href='/emails/update-is-deleted-email-section/{{_id}}/false'>
+                            <a class='text-success w-25' href='/emails/update-is-deleted-email-section/{{_id}}/false'>
                                 <i class="fa-solid fa-trash"></i>
                             </a>
                             {{/if}}

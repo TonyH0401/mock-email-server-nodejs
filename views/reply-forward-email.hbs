@@ -1,0 +1,113 @@
+<style>
+    body {
+        background-image: url("/images/server-images/20475201.jpg");
+        height: 100%;
+    }
+
+    .form-cover {
+        background: rgb(238, 174, 202);
+        background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+        border-radius: 50px;
+    }
+</style>
+
+<div class="container-fluid w-50 p-3 form-cover">
+    <div class="d-flex justify-content-center ">
+        <div class="w-50">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center"><i>{{subject}}</i></h3>
+            {{#if error}}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {{/if}}
+
+            <form action="#" method="post" id="">
+                <div class="form-outline mb-4" hidden>
+                    <input type="text" id="emailID" name="emailID" value="{{data._id}}" class="form-control" />
+                </div>
+                <!-- Receiver input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="email" name="email" class="form-control" required />
+                    <label class="form-label" for="email">Receiver Email Addresses</label>
+                </div>
+                <!-- Message input -->
+                <div class="form-outline mb-4">
+                    <textarea class="form-control" id="message" name="message" rows="4">{{text}}</textarea>
+                    <label class="form-label" for="message">Message</label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4" form="">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    {{!-- $(document).ready(function () {
+        let timer = null
+        $('#message').bind('keyup', function (e) {
+            console.clear()
+            let subject = $("#subject").val()
+            let text = $("#message").val()
+            let emailId = $('#emailId').val()
+            var code = e.keyCode || e.which;
+            if ((code >= 48 && code <= 57) || (code >= 65 && code <= 90) || (code = 8)) {
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    let data = {
+                        subject: subject,
+                        text: text,
+                        emailId: emailId
+                    }
+                    $.ajax({
+                        url: '/emails/update',
+                        method: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            if (response.success) {
+                                console.log(response)
+                            }
+                        },
+                        error: function (error) {
+                            alert('Error when post!')
+                        }
+                    })
+                }, 2000)
+            }
+        });
+        $('#subject').bind('keyup', function (e) {
+            console.clear()
+            let subject = $("#subject").val()
+            let text = $("#message").val()
+            let emailId = $('#emailId').val()
+            var code = e.keyCode || e.which;
+            if ((code >= 48 && code <= 57) || (code >= 65 && code <= 90) || (code = 8)) {
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    let data = {
+                        subject: subject,
+                        text: text,
+                        emailId: emailId
+                    }
+                    $.ajax({
+                        url: '/emails/update',
+                        method: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            if (response.success) {
+                                console.log(response)
+                            }
+                        },
+                        error: function (error) {
+                            alert('Error when post!')
+                        }
+                    })
+                }, 2000)
+            }
+        });
+    }); --}}
+
+</script>
