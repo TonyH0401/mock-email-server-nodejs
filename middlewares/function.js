@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const AccountModel = require('../model/AccountModel');
 
 module.exports.randomPropety = (obj) => {
     var keys = Object.keys(obj);
@@ -34,8 +35,27 @@ module.exports.getQuotes = async () => {
     let result = data.content + " - " + data.author
     return result
 }
-module.exports.emailStringToArrayObject = (emailString) => {
-    let valid = []
-    let invalid = []
-    
+module.exports.emailStringToArrayObject = async (emailString) => {
+    let validEmails = []
+    let invalidEmails = []
+    let rawEmails = [... new Set(emailString.replace(/\s/g, '').split(","))]
+    for (let index = 0; index < rawEmails.length; index++) {
+        let email = rawEmails[index];
+        let emailExist = await AccountModel.findOne({ email: email })
+        if (!emailExist) {
+            invalidEmails.push(email)
+        }
+        let emailObject = { email: email }
+        validEmails.push(emailObject)
+    }
+    if (invalidEmails.length != 0) {
+        return {
+            success: false,
+            message: `Invalid Emails: ${invalidEmails.toLocaleString()}`
+        }
+    }
+    return {
+        success: true,
+        data: validEmails
+    }
 }

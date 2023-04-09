@@ -61,12 +61,25 @@ router.put('/update', async (req, res, next) => {
 // not finished
 router.post('/send-email', async (req, res, next) => {
     const { emailId, email, subject, message } = req.body
-    
-    // check email is valid
-    // check block and blocked
-    return res.json({
-        data: req.body
-    })
+    let emailValid = await function_API.emailStringToArrayObject(email)
+    if (!emailValid.success) {
+        req.flash('error', emailValid.message)
+        return res.redirect(`/accounts/email/create-email/${emailId}`)
+    }
+    // check block and blocked email
+
+    let emailExist = await EmailModel.findOne({ _id: emailId })
+    if (!emailExist) {
+        req.flash('error', 'Email ID does not exist!')
+        return res.redirect(`/accounts/home`)
+    }
+    emailExist.subject = subject
+    emailExist.body = message
+    emailExist.receiver = emailValid.data
+    emailExist.email_type = "send"
+    let result = await emailExist.save()
+    req.flash('success', 'Sent Email!')
+    return res.redirect('/accounts/home')
 })
 
 

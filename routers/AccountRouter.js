@@ -12,19 +12,6 @@ const { LOCALHOST } = process.env;
 
 
 // /accounts/routes
-// router.get('/create-demo-account', async (req, res, next) => {
-//     try {
-
-//     } catch (error) {
-//         let message = error
-//         return res.status(500).render('error', {
-//             document: "Mail Creation Error",
-//             status: 500,
-//             message: message
-//         })
-//     }
-// })
-
 // router.get("/", async (req, res, next) => {
 //     let success = true
 //     let message = ""
@@ -240,6 +227,7 @@ router.get('/login', (req, res, next) => {
         return res.status(300).redirect('/accounts/home')
     }
     return res.status(200).render('login', {
+        document: 'Login page',
         error: req.flash("error") || '',
         email: req.flash('email') || ''
     })
@@ -497,7 +485,9 @@ router.get('/home', async (req, res, next) => {
     ]
     genderOpt.find(x => x.value == user.gender).select = true
     return res.render('home', {
-        error: req.flash('error'),
+        document: 'Home page',
+        error: req.flash('error') || '',
+        success: req.flash('success') || '',
         firstName: user.first_name,
         lastName: user.last_name,
         birthday: moment(user.birthday).format('YYYY-MM-DD'),
@@ -564,12 +554,19 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
         return res.status(202).redirect('/accounts/home')
     }
     const { email_id } = req.params
-    let emailExit = await EmailModel.findOne({ _id: email_id })
+    let emailExit = await EmailModel.findOne({ _id: email_id, sender: email })
     if (!emailExit) {
         return res.status(500).render('error', {
             document: "Email not found!",
             status: 404,
             message: "Email does not exist!"
+        })
+    }
+    if (emailExit.email_type == "send") {
+        return res.status(500).render('error', {
+            document: "Email sent error",
+            status: 500,
+            message: "Email can not be re-send!"
         })
     }
     let quote = await function_API.getQuotes()
