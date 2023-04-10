@@ -811,6 +811,7 @@ router.post('/reply-forward', async (req, res, next) => {
     let newMessage = ''
     let newReceiver = ''
     let newEmailID = ''
+    let document = ''
     if (!email) {
         return res.status(500).render('error', {
             document: "Reply Forward Error",
@@ -819,9 +820,21 @@ router.post('/reply-forward', async (req, res, next) => {
         })
     }
     if (reply) {
-        console.log("reply")
+        // console.log("reply")
+        console.log(req.body)
+        document = "Reply Email"
+        // newSubject = "Re: " + email.subject
+        // newMessage = "\n\n==========" + "\nSender: " + emailSender + "\nReceiver: " + emailReceiver + "\n" + message
+        // let newEmail = new EmailModel({
+        //     sender: session_email,
+        //     subject: newSubject,
+        //     body: newMessage
+        // })
+        // newEmailID = newEmail._id
+        // let result = await newEmail.save()
     }
     if (forward) {
+        document = "Forward Email"
         // console.log("forward")
         newSubject = "Fwd: " + email.subject
         newMessage = "\n\n==========" + "\nSender: " + emailSender + "\nReceiver: " + emailReceiver + "\n" + message
@@ -834,7 +847,7 @@ router.post('/reply-forward', async (req, res, next) => {
         let result = await newEmail.save()
     }
     return res.render('reply-forward-create-email', {
-        document: "Forward Email",
+        document: document,
         receiver: newReceiver,
         subject: newSubject,
         body: newMessage,

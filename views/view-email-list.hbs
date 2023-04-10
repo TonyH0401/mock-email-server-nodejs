@@ -88,8 +88,8 @@
                     {{#unless is_delete_send}}
                     <tr>
                         <td style="color: red; width: 8%">{{emailNotation}}</td>
-                        <td style="width: 15%" id="sender">{{sender}}</td>
-                        <td id="time" hidden>{{createdAt}}</td>
+                        <td style="width: 15%" id="sender-{{_id}}">{{sender}}</td>
+                        <td id="time-{{_id}}" hidden>{{createdAt}}</td>
                         <td style="width: 15%"><a href="/accounts/view-email-detail/{{_id}}"
                                 target="_blank">{{subject}}</a></td>
                         <td style="width: 25%">{{body}}</td>
@@ -143,7 +143,7 @@
 
 
                             {{!--is meta data --}}
-                            <a class='text-primary w-25' href='#' id="meta-data">
+                            <a class='text-primary w-25 meta-data' href='#' id="meta-data-{{_id}}">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </a>
 
@@ -186,10 +186,12 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('#meta-data').click(function () {
-            let sender = $('#sender').html()
-            let timer = $('#time').text()
-            alert("Meta-data: \n\tSender: " + sender + "\n\tTime Send: " + timer)
-        });
+        $('.meta-data').click(function () {
+            let meta_data = $(this).prop('id')
+            let id = meta_data.substring(10, meta_data.length)
+            let sender = $(`#sender-${id}`).html()
+            let time = $(`#time-${id}`).text()
+            alert("Meta-data: \n\tSender: " + sender + "\n\tTime Send: " + time)
+        })
     });
 </script>
