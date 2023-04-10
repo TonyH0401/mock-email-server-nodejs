@@ -820,18 +820,19 @@ router.post('/reply-forward', async (req, res, next) => {
         })
     }
     if (reply) {
-        // console.log("reply")
+        console.log("reply")
         console.log(req.body)
         document = "Reply Email"
-        // newSubject = "Re: " + email.subject
-        // newMessage = "\n\n==========" + "\nSender: " + emailSender + "\nReceiver: " + emailReceiver + "\n" + message
-        // let newEmail = new EmailModel({
-        //     sender: session_email,
-        //     subject: newSubject,
-        //     body: newMessage
-        // })
-        // newEmailID = newEmail._id
-        // let result = await newEmail.save()
+        newSubject = "Re: " + email.subject
+        newMessage = "\n\n==========" + "\nSender: " + emailSender + "\nReceiver: " + emailReceiver + "\n" + message
+        let newEmail = new EmailModel({
+            sender: session_email,
+            subject: newSubject,
+            body: newMessage
+        })
+        newEmailID = newEmail._id
+        let result = await newEmail.save()
+        newReceiver = emailReceiver.replace(session_email, emailSender)
     }
     if (forward) {
         document = "Forward Email"
