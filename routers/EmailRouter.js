@@ -289,6 +289,33 @@ router.get('/update-is-deleted-email-section/:emailId/:status', async (req, res,
         })
     }
 })
+// router.put('/reply-forward-update', async (req, res, next) => {
+//     const { emailID, message } = req.body
+//     try {
+//         let email = await EmailModel.findOne({ _id: emailID })
+//         if (!email) {
+//             return res.status(500).render('error', {
+//                 document: "Update Forward Draft Error, Email not found!",
+//                 status: 500,
+//                 message: error
+//             })
+//         }
+//         email.body = text
+//         let result = await email.save()
+//         return res.json({
+//             success: true,
+//             message: "Saved draft!"
+//             // text: text,
+//             // emailId: emailId
+//         })
+//     } catch (error) {
+//         return res.status(500).render('error', {
+//             document: "Update Draft Error",
+//             status: 500,
+//             message: error
+//         })
+//     }
+// })
 
 
 

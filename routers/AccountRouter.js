@@ -779,7 +779,7 @@ router.get('/delete-email', async (req, res, next) => {
     })
 })
 
-
+//not done
 router.get('/view-email-detail/:emailId', async (req, res, next) => {
     const { emailId } = req.params
     let email = req.session.email
@@ -804,24 +804,43 @@ router.get('/view-email-detail/:emailId', async (req, res, next) => {
     return res.redirect(`/accounts/email/create-email/${emailId}`)
 })
 router.post('/reply-forward', async (req, res, next) => {
-    const { emailID, emailSender, emailReceive, message, reply, forward } = req.body
-    if(reply) {
+    const session_email = req.session.email
+    const { emailID, emailSender, emailReceiver, message, reply, forward } = req.body
+    let email = await EmailModel.findOne({ _id: emailID })
+    let newSubject = ''
+    let newMessage = ''
+    let newReceiver = ''
+    let newEmailID = ''
+    if (!email) {
+        return res.status(500).render('error', {
+            document: "Reply Forward Error",
+            status: 500,
+            message: error
+        })
+    }
+    if (reply) {
         console.log("reply")
     }
-    if(forward) {
-        let newMessage = `${message}`
-        console.log("forward")
+    if (forward) {
+        // console.log("forward")
+        newSubject = "Fwd: " + email.subject
+        newMessage = "\n\n==========" + "\nSender: " + emailSender + "\nReceiver: " + emailReceiver + "\n" + message
+        let newEmail = new EmailModel({
+            sender: session_email,
+            subject: newSubject,
+            body: newMessage
+        })
+        newEmailID = newEmail._id
+        let result = await newEmail.save()
     }
-    return res.render('reply-forward-email', {
-        subject: "",
-        email_id: email_id,
-        subject: subject,
-        text: text,
+    return res.render('reply-forward-create-email', {
+        document: "Forward Email",
+        receiver: newReceiver,
+        subject: newSubject,
+        body: newMessage,
+        emailID: newEmailID,
         error: req.flash('error') || ''
     })
-    // return res.json({
-    //     data: req.body
-    // })
 })
 
 
