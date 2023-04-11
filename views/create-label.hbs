@@ -49,8 +49,6 @@
 <div class="container">
     <div class="sidenav">
         <a href="/accounts/home">About</a>
-        <a href="#services">Services</a>
-        <a href="#clients">Clients</a>
         <a href="/accounts/email" target="_blank">Create Email</a>
         <a href="/accounts/receive-email">Receive Email</a>
         <a href="/accounts/send-email">Send Email</a>
@@ -58,9 +56,12 @@
         <a href="/accounts/star-email">Star Email</a>
         <a href="/accounts/delete-email">Deleted Email</a>
         <a href="/accounts/search-email-basic">Search Email</a>
+        <a href="/accounts/search-email-advance">Search Email Advance</a>
         <a href="/accounts/label-management" style="color:white; background-color:gray">Label Management</a>
+        <a href="/accounts/block-user">Block User</a>
         <a href="/accounts/change-password">Change Password</a>
         <a href="/accounts/security-question">Security Question</a>
+        <a href="/accounts/change-view">Change View</a>
     </div>
     <div class="card shadow">
 
@@ -112,7 +113,8 @@
                     {{#each labelList}}
                     <tr>
                         <td style="width: 20%">{{_id}}</td>
-                        <td style="width: 10%"><a href="/labels/email-list-based-on-label/{{_id}}">{{label_name}}</a></td>
+                        <td style="width: 10%"><a href="/labels/email-list-based-on-label/{{_id}}">{{label_name}}</a>
+                        </td>
                         <td style="width: 45%">{{createdAt}}</td>
                         {{#if available}}
                         <td class='d-flex'>
