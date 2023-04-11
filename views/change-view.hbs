@@ -1,0 +1,92 @@
+<style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+        margin-left: 160px;
+        /* Same as the width of the sidenav */
+        font-size: 28px;
+        /* Increased text to enable scrolling */
+        padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="sidenav">
+        <a href="/accounts/home">About</a>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="/accounts/email" target="_blank">Create Email</a>
+        <a href="/accounts/receive-email">Receive Email</a>
+        <a href="/accounts/send-email">Send Email</a>
+        <a href="/accounts/draft-email">Draft Email</a>
+        <a href="/accounts/star-email">Star Email</a>
+        <a href="/accounts/delete-email">Deleted Email</a>
+        <a href="/accounts/search-email-basic">Search Email</a>
+        <a href="/accounts/label-management">Label Management</a>
+        <a href="/accounts/block-user">Block User</a>
+        <a href="/accounts/change-password">Change Password</a>
+        <a href="/accounts/security-question">Security Question</a>
+        <a href="#" style="color:white; background-color:gray">Change View</a>
+    </div>
+    <div class="card shadow">
+
+        <div class="pt-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
+        </div>
+
+        {{#if error}}
+        <div class="d-flex justify-content-center">
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="w-50">
+                <form action="#" method="post" id="">
+                    <!-- Search button -->
+                    <button type="submit" class="btn btn-success btn-block mb-4" form="">Change View</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+</script>

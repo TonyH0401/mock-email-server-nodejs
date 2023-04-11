@@ -74,3 +74,24 @@ module.exports.getListReceiverArrayFromArrayObject = (receiver) => {
     }
     return receiverList
 }
+module.exports.emailCreate = async (session_email) => {
+    try {
+        const email = session_email
+        let emailCreate = await EmailModel({
+            sender: email
+        })
+        let result = await emailCreate.save()
+        return {
+            success: true,
+            message: "Success create new draft email",
+            data: {
+                _id: result._id
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error
+        }
+    }
+}

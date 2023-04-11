@@ -533,15 +533,7 @@ router.get('/email', async (req, res, next) => {
     if (!email) {
         return res.status(202).redirect('/accounts/home')
     }
-    let data = { email }
-    let response = await fetch(LOCALHOST + '/emails/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    let result = await response.json()
+    let result = await function_API.emailCreate(email)
     if (!result.success) {
         return res.status(500).render('error', {
             document: "Account Email Error",
@@ -1155,7 +1147,13 @@ router.get('/remove-block-user/:email', async (req, res, next) => {
     return res.redirect('/accounts/block-user')
 })
 
+// router.get('/change-view', async (req, res, next) => {
 
+//     return res.render('change-view', {
+//         document: "Account's View",
+
+//     })
+// })
 
 
 
