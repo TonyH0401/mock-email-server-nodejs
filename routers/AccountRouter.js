@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const AccountModel = require('../model/AccountModel');
 const EmailModel = require('../model/EmailModel');
+const LabelModel = require('../model/LabelModel');
 const validator_API = require('../middlewares/validator');
 const randomstring = require('randomstring');
 const function_API = require('../middlewares/function');
@@ -985,6 +986,55 @@ router.post('/search-email-advance', async (req, res, next) => {
     })
 })
 
+
+router.get('/label-management', async (req, res, next) => {
+    const session_email = req.session.email
+    if (!session_email) {
+        return res.status(300).redirect('/accounts/login')
+    }
+    let labelList = await LabelModel.find()
+    let data = []
+    data = labelList.map(d => {
+        return {
+            _id: d._id,
+            label_name: d.label_name,
+            createdAt: d.createdAt,
+            available: (d.is_enable) ? true : ''
+        }
+    })
+    return res.render('create-label', {
+        document: "Label Management",
+        error: req.flash('error') || '',
+        success: req.flash('success') || '',
+        category: "Label Management of ",
+        user_email: session_email,
+        labelList: data
+    })
+})
+router.post('/label-management', async (req, res, next) => {
+    const session_email = req.session.email
+    const { label } = req.body
+
+    let normalizeLabel = label.toLowerCase().trim()
+    let labelExist = await LabelModel.findOne({
+        label_name: normalizeLabel
+    })
+    if (labelExist) {
+        req.flash('error', `Label: ${normalizeLabel} existed!`)
+        return res.redirect('/accounts/label-management')
+    }
+    try {
+        let newLabel = new LabelModel({
+            label_name: normalizeLabel
+        })
+        let result = await newLabel.save()
+        req.flash('success', `Created Label: ${normalizeLabel}`)
+        return res.redirect('/accounts/label-management')
+    } catch (error) {
+        req.flash('error', error)
+        return res.redirect('/accounts/label-management')
+    }
+})
 
 
 

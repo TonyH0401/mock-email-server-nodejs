@@ -59,7 +59,8 @@ const AccountRouter = require('./routers/AccountRouter');
 app.use('/accounts', AccountRouter)
 const EmailRouter = require('./routers/EmailRouter');
 app.use('/emails', EmailRouter)
-
+const LabelRouter = require('./routers/LabelRouter');
+app.use('/labels', LabelRouter)
 
 // error handling
 app.use((req, res, next) => {
