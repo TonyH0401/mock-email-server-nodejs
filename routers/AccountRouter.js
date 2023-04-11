@@ -795,6 +795,11 @@ router.get('/view-email-detail/:emailId', async (req, res, next) => {
         return res.status(202).redirect('/accounts/home')
     }
     let emailExist = await EmailModel.findOne({ _id: emailId })
+    let returnLabel = ''
+    let labelExist = await emailExist.populate('label')
+    if (labelExist.label) {
+        returnLabel = labelExist.label.label_name
+    }
     if (emailExist.email_type != "draft") {
         let data = {
             _id: emailExist._id,
@@ -802,6 +807,7 @@ router.get('/view-email-detail/:emailId', async (req, res, next) => {
             subject: emailExist.subject,
             body: emailExist.body,
             receiver: function_API.getListReceiverFromArray(emailExist.receiver),
+            label: returnLabel
         }
         return res.render('view-email-detail', {
             document: "Detail View",
@@ -828,8 +834,8 @@ router.post('/reply-forward', async (req, res, next) => {
         })
     }
     if (reply) {
-        console.log("reply")
-        console.log(req.body)
+        // console.log("reply")
+        // console.log(req.body)
         document = "Reply Email"
         newSubject = "Re: " + email.subject
         newMessage = "\n\n==========" + "\nSender: " + emailSender + "\nReceiver: " + emailReceiver + "\n" + message

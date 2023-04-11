@@ -38,6 +38,15 @@
                         readonly>{{data.receiver}}</textarea>
                     <label class="form-label" for="emailReceiver">Email Receiver</label>
                 </div>
+
+                {{#if data.label}}
+                <div class="form-outline mb-4">
+                    <input type="text" id="" name="" class="form-control" value="{{data.label}}"
+                        readonly />
+                    <label for="labels">Is the Selected Label</label>
+                </div>
+                {{/if}}
+
                 <!-- Email body -->
                 <div class="form-outline mb-4">
                     <textarea class="form-control" id="message" name="message" rows="4"
@@ -46,14 +55,16 @@
                 </div>
 
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-success btn-block mb-4" form="replyForward" name="reply" value="true">Reply</button>
-                <button type="submit" class="btn btn-warning btn-block mb-4" form="replyForward" name="forward" value="true">Forward</button>
+                <button type="submit" class="btn btn-success btn-block mb-4" form="replyForward" name="reply"
+                    value="true">Reply</button>
+                <button type="submit" class="btn btn-warning btn-block mb-4" form="replyForward" name="forward"
+                    value="true">Forward</button>
             </form>
         </div>
     </div>
 </div>
 
 <script>
-   
+
 
 </script>
