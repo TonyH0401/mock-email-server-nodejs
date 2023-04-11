@@ -1,0 +1,137 @@
+<style>
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+        margin-left: 160px;
+        /* Same as the width of the sidenav */
+        font-size: 28px;
+        /* Increased text to enable scrolling */
+        padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {
+            padding-top: 15px;
+        }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="sidenav">
+        <a href="/accounts/home">About</a>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="/accounts/email" target="_blank">Create Email</a>
+        <a href="/accounts/receive-email">Receive Email</a>
+        <a href="/accounts/send-email">Send Email</a>
+        <a href="/accounts/draft-email">Draft Email</a>
+        <a href="/accounts/label-management" style="color:white; background-color:gray">Label Management</a>
+        <a href="/accounts/change-password">Change Password</a>
+        <a href="/accounts/security-question">Security Question</a>
+    </div>
+    <div class="card shadow">
+        <div class="pt-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
+        </div>
+        <div class='card-body'>
+            <table class='table table-hover data-table'>
+                <thead class='thead-light'>
+                    <tr>
+                        {{!-- <th scope='col'>Hình ảnh</th>
+                        <th scope='col'>Tên</th>
+                        <th scope='col'>Mã</th>
+                        <th scope='col'>Điều chỉnh</th>
+                        <th scope='col'></th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#if emailList}}
+                    {{#each emailList}}
+                    {{#unless is_delete_send}}
+                    <tr>
+                        <td style="color: red; width: 8%">{{emailNotation}}</td>
+                        <td style="width: 15%">{{receiver}}</td>
+                        <td id="time-{{_id}}" hidden>{{createdAt}}</td>
+                        <td style="width: 15%"><a href="/accounts/view-email-detail/{{_id}}"
+                                target="_blank">{{subject}}</a></td>
+                        <td style="width: 25%">{{body}}</td>
+                        <td class='d-flex'>
+                            {{!--is star --}}
+                            {{#unless is_star_send}}
+                            <a class='text-warning w-25' href='/emails/update-is-star-send-send/{{_id}}/true'>
+                                <i class="fa-regular fa-star"></i>
+                            </a>
+                            {{/unless}}
+                            {{#if is_star_send}}
+                            <a class='text-warning w-25' href='/emails/update-is-star-send-send/{{_id}}/false'>
+                                <i class="fa-solid fa-star"></i>
+                            </a>
+                            {{/if}}
+                            {{!--is delete --}}
+                            <a class='text-danger w-25' href='/emails/update-is-deleted-send-send/{{_id}}/true'>
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                            {{!--is meta data --}}
+                            <a class='text-primary w-25 meta-data' href='#' id="meta-data-{{_id}}">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {{/unless}}
+                    {{/each}}
+                    {{else}}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.meta-data').click(function () {
+            let meta_data = $(this).prop('id')
+            let id = meta_data.substring(10, meta_data.length)
+            let time = $(`#time-${id}`).text()
+            alert("Meta-data:" + "\n\tTime Send: " + time)
+        })
+    });
+</script>

@@ -78,9 +78,11 @@ router.post('/send-email', async (req, res, next) => {
     emailExist.body = message
     emailExist.receiver = emailValid.data
     emailExist.email_type = "send"
-    let label = await LabelModel.findOne({ _id: labels })
-    if (label) {
-        emailExist.label = label._id
+    if (labels != "default") {
+        let label = await LabelModel.findOne({ _id: labels })
+        if (label) {
+            emailExist.label = label._id
+        }
     }
     let result = await emailExist.save()
     req.flash('success', 'Sent Email!')
