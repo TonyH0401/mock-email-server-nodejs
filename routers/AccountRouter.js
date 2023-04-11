@@ -1054,8 +1054,106 @@ router.post('/label-management', async (req, res, next) => {
 })
 
 
+router.get('/block-user', async (req, res, next) => {
+    const session_email = req.session.email
+    if (!session_email) {
+        return res.status(300).redirect('/accounts/login')
+    }
+    let emailInfo = await AccountModel.findOne({ email: session_email })
+    let blockList = emailInfo.blocked_user
+    let data = []
+    data = blockList.map(d => {
+        return {
+            blockEmail: d
+        }
+    })
+    return res.render('block-user', {
+        document: 'Block User',
+        category: 'Block Users of ',
+        user_email: session_email,
+        error: req.flash('error') || '',
+        success: req.flash('success') || '',
+        blockUserList: data
+    })
+})
+router.post('/block-user', async (req, res, next) => {
+    const session_email = req.session.email
+    const { email } = req.body
+    if (!session_email) {
+        return res.status(200).redirect('/accounts/login')
+    }
 
+    if (session_email == email) {
+        req.flash('error', 'You can not block yourself')
+        return res.redirect('/accounts/block-user')
+    }
 
+    let emailExist = await AccountModel.findOne({ email: email })
+    if (!emailExist) {
+        req.flash('error', `${email} does not exist!`)
+        return res.redirect('/accounts/block-user')
+    }
+    let myEmail = await AccountModel.findOne({ email: session_email })
+    try {
+        if (!myEmail.blocked_user.includes(email)) {
+            myEmail.blocked_user.push(email)
+        }
+        else {
+            req.flash('error', `${email} is already blocked!`)
+            return res.redirect('/accounts/block-user')
+        }
+        if (!emailExist.blocked_user_invs.includes(session_email)) {
+            emailExist.blocked_user_invs.push(session_email)
+        }
+        else {
+            return res.redirect('/accounts/block-user')
+        }
+        let result = await myEmail.save()
+        let result2 = await emailExist.save()
+        req.flash('success', `${email} blocked!`)
+        return res.redirect('/accounts/block-user')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Block User Error",
+            status: 500,
+            message: error
+        })
+    }
+})
+router.get('/remove-block-user/:email', async (req, res, next) => {
+    const session_email = req.session.email
+    const { email } = req.params
+    if (!session_email) {
+        return res.status(200).redirect('/accounts/login')
+    }
+    try {
+        // unblock them from me
+        let accountInfo = await AccountModel.findOne({ email: session_email })
+        let blockList = accountInfo.blocked_user
+        let index = blockList.indexOf(email)
+        if (index > -1) {
+            blockList.splice(index, 1)
+        }
+        accountInfo.blocked_user = blockList
+        let result = await accountInfo.save()
+        // unblock me from them
+        let accountInfo2 = await AccountModel.findOne({ email: email })
+        let blockList2 = accountInfo2.blocked_user_invs
+        let index2 = blockList2.indexOf(session_email)
+        if (index2 > -1) {
+            blockList2.splice(index2, 1)
+        }
+        accountInfo2.blocked_user = blockList2
+        let result2 = await accountInfo2.save()
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Unnlock User Error",
+            status: 500,
+            message: error
+        })
+    }
+    return res.redirect('/accounts/block-user')
+})
 
 
 

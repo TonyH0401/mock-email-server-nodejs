@@ -69,6 +69,7 @@ router.post('/send-email', async (req, res, next) => {
         return res.redirect(`/accounts/email/create-email/${emailId}`)
     }
     // check block and blocked email - not finished
+    // intersect of the 2 emails
     let emailExist = await EmailModel.findOne({ _id: emailId })
     if (!emailExist) {
         req.flash('error', 'Email ID does not exist!')
