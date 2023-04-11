@@ -779,7 +779,7 @@ router.get('/delete-email', async (req, res, next) => {
     })
 })
 
-//not done
+
 router.get('/view-email-detail/:emailId', async (req, res, next) => {
     const { emailId } = req.params
     let email = req.session.email
@@ -856,6 +856,83 @@ router.post('/reply-forward', async (req, res, next) => {
         error: req.flash('error') || ''
     })
 })
+
+
+router.get('/search-email-basic', async (req, res, next) => {
+    const session_email = req.session.email
+    if (!session_email) {
+        return res.status(300).redirect('/accounts/login')
+    }
+    return res.render('search-basic', {
+        document: "Search Email",
+        error: req.flash('error') || '',
+        success: req.flash('success') || '',
+        category: "Search email of ",
+        user_email: session_email
+    })
+})
+router.post('/search-email-basic', async (req, res, next) => {
+    // let sample_text_subject = 'Fwd'
+    // let sample_text_email_sender = 'steveroger@mymail.com'
+    let sample_text_email_sender = req.session.email
+    let sample_text_subject = req.body.search
+
+    let emailSenderType = await EmailModel.find({
+        subject: {
+            $regex: sample_text_subject,
+            $options: 'i'
+        },
+        sender: sample_text_email_sender
+    })
+    let data1 = []
+    data1 = emailSenderType.map(d => {
+        return {
+            _id: d._id,
+            subject: d.subject,
+            createdAt: d.createdAt,
+            emailNotation: (d.email_type == "draft") ? 'Draft' : 'Sender'
+        }
+    })
+    let emailReceiverType = await EmailModel.find({
+        subject: {
+            $regex: sample_text_subject,
+            $options: 'i'
+        },
+        "receiver.email": sample_text_email_sender
+    })
+    let data2 = []
+    data2 = emailReceiverType.map(d => {
+        return {
+            _id: d._id,
+            subject: d.subject,
+            createdAt: d.createdAt,
+            emailNotation: 'Receiver'
+        }
+    })
+
+    let result = data1.concat(data2)
+    let error = ''
+    let success = ''
+    if (result.length == 0) {
+        error = `No match for '${sample_text_subject}'!`
+    }
+    else {
+        success = `Email(s) found: ${result.length}`
+    }
+    return res.render('search-basic', {
+        document: "Search Email",
+        error: error || '',
+        success: success || '',
+        category: "Search email of ",
+        user_email: sample_text_email_sender,
+        emailList: result
+    })
+})
+
+
+
+
+
 
 
 
