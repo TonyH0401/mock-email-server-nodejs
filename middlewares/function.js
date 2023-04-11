@@ -67,3 +67,10 @@ module.exports.getListReceiverFromArray = (receiver) => {
     }
     return receiverList.toLocaleString()
 }
+module.exports.getListReceiverArrayFromArrayObject = (receiver) => {
+    let receiverList = []
+    for (let index = 0; index < receiver.length; index++) {
+        receiverList.push(receiver[index].email);
+    }
+    return receiverList
+}

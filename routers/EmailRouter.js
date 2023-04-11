@@ -70,6 +70,15 @@ router.post('/send-email', async (req, res, next) => {
     }
     // check block and blocked email - not finished
     // intersect of the 2 emails
+    let session_email = req.session.email
+    let accountInfo = await AccountModel.findOne({ email: session_email })
+    let blockList = accountInfo.blocked_user.concat(accountInfo.blocked_user_invs)
+    let intersect = function_API.getListReceiverArrayFromArrayObject(emailValid.data).filter(value => blockList.includes(value));
+    if(intersect.length != 0) {
+        req.flash('error', `${intersect.toLocaleString()} is blocked`)
+        return res.redirect(`/accounts/email/create-email/${emailId}`)
+    }
+    // 
     let emailExist = await EmailModel.findOne({ _id: emailId })
     if (!emailExist) {
         req.flash('error', 'Email ID does not exist!')
