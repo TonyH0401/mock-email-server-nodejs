@@ -928,6 +928,65 @@ router.post('/search-email-basic', async (req, res, next) => {
         emailList: result
     })
 })
+router.get('/search-email-advance', async (req, res, next) => {
+    const session_email = req.session.email
+    if (!session_email) {
+        return res.status(300).redirect('/accounts/login')
+    }
+    return res.render('search-advance', {
+        document: "Advance Search Email",
+        error: req.flash('error') || '',
+        success: req.flash('success') || '',
+        category: "Advance Search email of ",
+        user_email: session_email
+    })
+})
+router.post('/search-email-advance', async (req, res, next) => {
+    const session_email = req.session.email
+    const { sender, receiver, subject, body } = req.body
+
+    let emailSearch = await EmailModel.find({
+        sender: sender,
+        "receiver.email": receiver,
+        subject: {
+            $regex: subject,
+            $options: 'i'
+        },
+        body: {
+            $regex: body,
+            $options: 'i'
+        }
+    })
+    let data = []
+    data = emailSearch.map(d => {
+        return {
+            _id: d._id,
+            subject: d.subject,
+            createdAt: d.createdAt,
+            emailNotation: (emailSearch.email_type == "draft") ? 'Draft' : ((emailSearch.email_type == "Send") ? 'Send' : 'Receive')
+        }
+    })
+
+    let error = ''
+    let success = ''
+    if (data.length == 0) {
+        error = `No match for '${sender}', '${receiver}', '${subject}', '${body}'!`
+    }
+    else {
+        success = `Email(s) found: ${data.length}`
+    }
+    return res.render('search-advance', {
+        document: "Advance Search Email",
+        error: error || '',
+        success: success || '',
+        category: "Advance Search email of ",
+        user_email: session_email,
+        emailList: data
+    })
+})
+
+
+
 
 
 
