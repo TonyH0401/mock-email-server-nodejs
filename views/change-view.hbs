@@ -76,12 +76,19 @@
                 {{error}}
             </div>
         </div>
+        {{/if}}
 
         <div class="d-flex justify-content-center">
             <div class="w-50">
-                <form action="#" method="post" id="">
+                <form action="/accounts/change-view" method="post" id="changeView">
                     <!-- Search button -->
-                    <button type="submit" class="btn btn-success btn-block mb-4" form="">Change View</button>
+                    {{#if simpleView}}
+                    <button type="submit" class="btn btn-primary btn-block mb-4" form="changeView" value="false"
+                        name="simple">Simple View</button>
+                    {{else}}
+                    <button type="submit" class="btn btn-success btn-block mb-4" form="changeView" value="true"
+                        name="detail">Detail View</button>
+                    {{/if}}
                 </form>
             </div>
         </div>

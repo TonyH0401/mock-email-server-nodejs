@@ -1147,13 +1147,46 @@ router.get('/remove-block-user/:email', async (req, res, next) => {
     return res.redirect('/accounts/block-user')
 })
 
-// router.get('/change-view', async (req, res, next) => {
+router.get('/change-view', async (req, res, next) => {
+    const session_email = req.session.email
+    if (!session_email) {
+        return res.status(300).redirect('/accounts/login')
+    }
+    let accountInfo = await AccountModel.findOne({ email: session_email })
+    if (!accountInfo) {
+        return res.status(300).redirect('/accounts/login')
+    }
+    let accountViewSimple = accountInfo.simple_view
 
-//     return res.render('change-view', {
-//         document: "Account's View",
-
-//     })
-// })
+    return res.render('change-view', {
+        document: "Account's View",
+        error: req.flash('error') || '',
+        user_email: session_email,
+        category: (accountViewSimple == true) ? "Simple View of " : "Detail View of ",
+        simpleView: (accountViewSimple == true) ? "true" : ''
+    })
+})
+router.post('/change-view', async (req, res, next) => {
+    const session_email = req.session.email
+    const { simple, detail } = req.body
+    let accountInfo = await AccountModel.findOne({ email: session_email })
+    try {
+        if (simple) {
+            accountInfo.simple_view = false
+        }
+        if (detail) {
+            accountInfo.simple_view = true
+        }
+        let result = await accountInfo.save()
+        return res.redirect('/accounts/change-view')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Change View Error",
+            status: 500,
+            message: error
+        })
+    }
+})
 
 
 

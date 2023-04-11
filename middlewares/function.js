@@ -95,3 +95,7 @@ module.exports.emailCreate = async (session_email) => {
         }
     }
 }
+module.exports.getSimpleView = async (session_email) => {
+    let accountInfo = await AccountModel.findOne({ email: session_email })
+    return accountInfo.simple_view
+}

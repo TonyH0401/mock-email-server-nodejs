@@ -59,7 +59,6 @@ router.put('/update', async (req, res, next) => {
         })
     }
 })
-// not finished
 router.post('/send-email', async (req, res, next) => {
     // console.log(req.body)
     const { emailId, email, subject, message, labels } = req.body
@@ -68,7 +67,7 @@ router.post('/send-email', async (req, res, next) => {
         req.flash('error', emailValid.message)
         return res.redirect(`/accounts/email/create-email/${emailId}`)
     }
-    // check block and blocked email - not finished
+    // check block and blocked email
     // intersect of the 2 emails
     let session_email = req.session.email
     let accountInfo = await AccountModel.findOne({ email: session_email })
