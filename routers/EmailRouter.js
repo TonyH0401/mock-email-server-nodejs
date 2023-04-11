@@ -7,6 +7,7 @@ const AccountModel = require('../model/AccountModel');
 const EmailModel = require('../model/EmailModel');
 const validator_API = require('../middlewares/validator');
 const function_API = require('../middlewares/function');
+const LabelModel = require('../model/LabelModel');
 
 
 router.post('/create', async (req, res, next) => {
@@ -60,7 +61,8 @@ router.put('/update', async (req, res, next) => {
 })
 // not finished
 router.post('/send-email', async (req, res, next) => {
-    const { emailId, email, subject, message } = req.body
+    // console.log(req.body)
+    const { emailId, email, subject, message, labels } = req.body
     let emailValid = await function_API.emailStringToArrayObject(email)
     if (!emailValid.success) {
         req.flash('error', emailValid.message)
@@ -76,6 +78,10 @@ router.post('/send-email', async (req, res, next) => {
     emailExist.body = message
     emailExist.receiver = emailValid.data
     emailExist.email_type = "send"
+    let label = await LabelModel.findOne({ _id: labels })
+    if (label) {
+        emailExist.label = label._id
+    }
     let result = await emailExist.save()
     req.flash('success', 'Sent Email!')
     return res.redirect('/accounts/home')

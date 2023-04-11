@@ -572,6 +572,12 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
             message: "Email can not be re-send!"
         })
     }
+
+    let labelList = await LabelModel.find({
+        email: email,
+        is_enable: true
+    })
+
     let quote = await function_API.getQuotes()
     let subject = emailExit.subject
     let text = emailExit.body
@@ -580,7 +586,8 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
         email_id: email_id,
         subject: subject,
         text: text,
-        error: req.flash('error') || ''
+        error: req.flash('error') || '',
+        labelList: labelList
     })
 })
 
@@ -992,7 +999,9 @@ router.get('/label-management', async (req, res, next) => {
     if (!session_email) {
         return res.status(300).redirect('/accounts/login')
     }
-    let labelList = await LabelModel.find()
+    let labelList = await LabelModel.find({
+        email: session_email
+    })
     let data = []
     data = labelList.map(d => {
         return {
@@ -1017,14 +1026,16 @@ router.post('/label-management', async (req, res, next) => {
 
     let normalizeLabel = label.toLowerCase().trim()
     let labelExist = await LabelModel.findOne({
+        email: session_email,
         label_name: normalizeLabel
     })
     if (labelExist) {
-        req.flash('error', `Label: ${normalizeLabel} existed!`)
+        req.flash('error', `Label: ${normalizeLabel} existed for ${session_email}!`)
         return res.redirect('/accounts/label-management')
     }
     try {
         let newLabel = new LabelModel({
+            email: session_email,
             label_name: normalizeLabel
         })
         let result = await newLabel.save()

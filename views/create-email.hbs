@@ -42,6 +42,18 @@
                     <label class="form-label" for="message">Message</label>
                 </div>
 
+                <div class="form-outline mb-4">
+                    {{#if labelList}}
+                    <label for="labels">Select a label:</label>
+                    <select name="labels" id="labels">
+                        <option value="default">---Select Label---</option>
+                        {{#each labelList}}
+                        <option value="{{this._id}}">{{this.label_name}}</option>
+                        {{/each}}
+                    </select>
+                    {{/if}}
+                </div>
+
                 <!-- Submit button -->
                 <button type="submit" class="btn btn-primary btn-block mb-4" form="sendEmail">Send</button>
             </form>

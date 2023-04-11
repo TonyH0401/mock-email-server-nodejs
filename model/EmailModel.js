@@ -13,6 +13,7 @@ const EmailModel = new Schema(
             is_delete: { type: Boolean, default: false }
             // is_spam: { type: Boolean, default: false }
         }],
+        label: { type: Schema.Types.ObjectId, ref: 'LabelModel' },
         is_star_sender: { type: Boolean, default: false },
         is_delete_sender: { type: Boolean, default: false },
         email_type: { type: String, default: "draft" }
