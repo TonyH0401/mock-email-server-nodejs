@@ -590,6 +590,7 @@ router.get('/receive-email', async (req, res, next) => {
         return res.status(202).redirect('/accounts/home')
     }
     let emailList = await EmailModel.find({ "receiver.email": email })
+    let isSimpleView = await function_API.getSimpleView(email)
     let data = []
     data = emailList.map(d => {
         return {
@@ -602,7 +603,7 @@ router.get('/receive-email', async (req, res, next) => {
             is_star: d.receiver.find(x => x.email == email).is_star ? true : '',
             is_delete: d.receiver.find(x => x.email == email).is_delete ? true : '',
             createdAt: d.createdAt,
-            body: d.body,
+            body: (isSimpleView) ? '' : d.body,
             subject: d.subject,
             emailNotation: "Received",
             editOption: true
@@ -625,6 +626,7 @@ router.get('/draft-email', async (req, res, next) => {
         sender: email,
         email_type: "draft"
     })
+    let isSimpleView = await function_API.getSimpleView(email)
     let data = []
     data = emailList.map(d => {
         return {
@@ -634,7 +636,7 @@ router.get('/draft-email', async (req, res, next) => {
             is_delete_send: d.is_delete_sender,
             email_type: d.email_type,
             createdAt: d.createdAt,
-            body: d.body,
+            body: (isSimpleView) ? '' : d.body,
             subject: d.subject,
             emailNotation: "Draft"
         }
@@ -656,6 +658,7 @@ router.get('/send-email', async (req, res, next) => {
         sender: email,
         email_type: "send"
     })
+    let isSimpleView = await function_API.getSimpleView(email)
     let data = []
     data = emailList.map(d => {
         return {
@@ -665,8 +668,8 @@ router.get('/send-email', async (req, res, next) => {
             is_delete_send: d.is_delete_sender,
             email_type: d.email_type,
             createdAt: d.createdAt,
-            body: d.body.substring(0, 10),
-            subject: d.subject.substring(0, 5),
+            body: (isSimpleView) ? '' : d.body,
+            subject: d.subject,
             emailNotation: "Send"
         }
     })
@@ -683,6 +686,7 @@ router.get('/star-email', async (req, res, next) => {
     if (!email) {
         return res.status(202).redirect('/accounts/home')
     }
+    let isSimpleView = await function_API.getSimpleView(email)
     // draft send
     let data = []
     let emailListStarSender = await EmailModel.find({
@@ -698,8 +702,8 @@ router.get('/star-email', async (req, res, next) => {
             draft_sender_receiver: draft_sender_receiver_temp,
             is_star_send: d.is_star_sender,
             createdAt: d.createdAt,
-            body: d.body,
-            subject: d.subject.substring(0, 5),
+            body: (isSimpleView) ? '' : d.body,
+            subject: d.subject,
             emailNotation: emailNotation_temp
         }
     })
@@ -716,8 +720,8 @@ router.get('/star-email', async (req, res, next) => {
             draft_sender_receiver: d.sender,
             is_star: d.receiver.find(x => x.email == email).is_star,
             createdAt: d.createdAt,
-            body: d.body,
-            subject: d.subject.substring(0, 5),
+            body: (isSimpleView) ? '' : d.body,
+            subject: d.subject,
             emailNotation: "Receive"
         }
     })
@@ -734,6 +738,7 @@ router.get('/delete-email', async (req, res, next) => {
     if (!email) {
         return res.status(202).redirect('/accounts/home')
     }
+    let isSimpleView = await function_API.getSimpleView(email)
     // draft send
     let data = []
     let emailListStarSender = await EmailModel.find({
@@ -748,8 +753,8 @@ router.get('/delete-email', async (req, res, next) => {
             draft_sender_receiver: draft_sender_receiver_temp,
             is_delete_send: d.is_delete_sender,
             createdAt: d.createdAt,
-            body: d.body,
-            subject: d.subject.substring(0, 5),
+            body: (isSimpleView) ? '' : d.body,
+            subject: d.subject,
             emailNotation: emailNotation_temp
         }
     })
@@ -765,8 +770,8 @@ router.get('/delete-email', async (req, res, next) => {
             draft_sender_receiver: d.sender,
             is_delete: d.receiver.find(x => x.email == email).is_delete,
             createdAt: d.createdAt,
-            body: d.body,
-            subject: d.subject.substring(0, 5),
+            body: (isSimpleView) ? '' : d.body,
+            subject: d.subject,
             emailNotation: "Receive"
         }
     })
@@ -1146,6 +1151,7 @@ router.get('/remove-block-user/:email', async (req, res, next) => {
     }
     return res.redirect('/accounts/block-user')
 })
+
 
 router.get('/change-view', async (req, res, next) => {
     const session_email = req.session.email
