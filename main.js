@@ -61,6 +61,9 @@ const EmailRouter = require('./routers/EmailRouter');
 app.use('/emails', EmailRouter)
 const LabelRouter = require('./routers/LabelRouter');
 app.use('/labels', LabelRouter)
+const AdminRouter = require('./routers/AdminRouter');
+app.use('/admins', AdminRouter)
+
 
 // error handling
 app.use((req, res, next) => {

@@ -1195,7 +1195,15 @@ router.post('/change-view', async (req, res, next) => {
 })
 
 
-
+router.get('/logout', async (req, res, next) => {
+    const session_email = req.session.email
+    if(!session_email) {
+        return res.redirect('/accounts/login')
+    }
+    let email = session_email
+    req.session.destroy()
+    return res.redirect('/accounts/login')
+})
 
 
 
