@@ -1,0 +1,115 @@
+<style>
+    @import 'https://fonts.googleapis.com/css?family=Raleway:300,400';
+
+    body {
+        font-family: 'Raleway:300', sans-serif
+    }
+
+    .admin-sidenav {
+        width: auto;
+        height: auto;
+        margin-left: 0px;
+    }
+
+    .admin-sidenav a {
+        text-decoration: none;
+    }
+
+    .admin-sidenav li {
+        text-align: justify;
+        padding: .5rem;
+        padding-left: 1rem;
+        -webkit-transition: all .2s linear;
+        transition: all .2s linear;
+        background-color: #000;
+        border: 1px solid #333;
+    }
+
+    .admin-sidenav li a {
+        color: #fff;
+    }
+
+    .admin-sidenav li a:active {
+        border-color: #02d3f5;
+    }
+
+    .admin-sidenav li:hover {
+        border-radius: 0 .5rem .5rem 0;
+        border-color: #02d3f5;
+        -webkit-transform: translate(30px, 0px);
+        transform: translate(30px, 0px);
+        background: -webkit-linear-gradient(left, #006a7b, #002340);
+        background: linear-gradient(to right, #006a7b, #002340);
+    }
+
+    .admin-sidenav li:active {
+        border-color: #02d3f5;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="admin-sidebar" class="col-md-2 p-x-0 p-y-3">
+            <ul class="sidenav admin-sidenav list-unstyled">
+                <li><a href="/admins/home">Admin Home</li>
+                <li><a href="/admins/valid-users">Valid Users</a></li>
+                <li><a href="/admins/invalid-users">Invalid Users</a></li>
+                <li><a href="/admins/emails">Email List</a></li>
+            </ul>
+        </div>
+
+        <div id="admin-main-control" class="col-md-10 p-x-3 p-y-1">
+            <div class='card-body'>
+                <div class="content-title m-x-auto">
+                    <i class="fa fa-dashboard"></i> Admin Dashboard
+                </div>
+                <p class="display-4">Email(s) List</p>
+
+                {{#if message}}
+                <div class="alert alert-primary" role="alert">
+                    {{{message}}}
+                </div>
+                {{/if}}
+                {{#if draft}}
+                <div class="alert alert-warning" role="alert">
+                    {{{draft}}}
+                </div>
+                {{/if}}
+
+                <table class='table table-hover data-table'>
+                    <thead class='thead-light'>
+                        <tr>
+                            <th scope='col' style="width: ;">Email ID</th>
+                            <th scope='col' style="width: ;">Sender</th>
+                            <th scope='col' style="width: ;">Receiver</th>
+                            <th scope='col' style="width: ;">Subject</th>
+                            <th scope='col' style="width: ;">Body</th>
+                            <th scope='col' style="width: ;">Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if data}}
+                        {{#each data}}
+                        <tr>
+                            <td style="width: 10%;"><a href="#{{_id}}">{{short_id}}</a></td>
+                            <td style="width: 15%;">{{sender}}</td>
+                            <td style="width: 15%;">{{receiver}}</td>
+                            <td style="width: 10%;">{{subject}}</td>
+                            <td style="width: 20%;">{{body}}</td>
+                            <td style="width: 12%;">{{created_at}}</td>
+                        </tr>
+                        {{/each}}
+                        {{else}}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- /#admin-main-control -->
+    </div> <!-- /.row -->
+</div> <!-- /.container-fluid -->

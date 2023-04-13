@@ -1,0 +1,128 @@
+<style>
+    @import 'https://fonts.googleapis.com/css?family=Raleway:300,400';
+
+    body {
+        font-family: 'Raleway:300', sans-serif
+    }
+
+    .admin-sidenav {
+        width: auto;
+        height: auto;
+        margin-left: 0px;
+    }
+
+    .admin-sidenav a {
+        text-decoration: none;
+    }
+
+    .admin-sidenav li {
+        text-align: justify;
+        padding: .5rem;
+        padding-left: 1rem;
+        -webkit-transition: all .2s linear;
+        transition: all .2s linear;
+        background-color: #000;
+        border: 1px solid #333;
+    }
+
+    .admin-sidenav li a {
+        color: #fff;
+    }
+
+    .admin-sidenav li a:active {
+        border-color: #02d3f5;
+    }
+
+    .admin-sidenav li:hover {
+        border-radius: 0 .5rem .5rem 0;
+        border-color: #02d3f5;
+        -webkit-transform: translate(30px, 0px);
+        transform: translate(30px, 0px);
+        background: -webkit-linear-gradient(left, #006a7b, #002340);
+        background: linear-gradient(to right, #006a7b, #002340);
+    }
+
+    .admin-sidenav li:active {
+        border-color: #02d3f5;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="admin-sidebar" class="col-md-2 p-x-0 p-y-3">
+            <ul class="sidenav admin-sidenav list-unstyled">
+                <li><a href="/admins/home">Admin Home</li>
+                <li><a href="/admins/valid-users">Valid Users</a></li>
+                <li><a href="/admins/invalid-users">Invalid Users</a></li>
+                <li><a href="/admins/emails">Email List</a></li>
+            </ul>
+        </div>
+
+        <div id="admin-main-control" class="col-md-10 p-x-3 p-y-1">
+            <div class='card-body'>
+                <div class="content-title m-x-auto">
+                    <i class="fa fa-dashboard"></i> Admin Dashboard
+                </div>
+                {{#if valid_message}}
+                <p class="display-4">Valid Users</p>
+                {{else}}
+                <p class="display-4">Invalid Users</p>
+                {{/if}}
+
+                {{#if valid_message}}
+                <div class="alert alert-success" role="alert">
+                    {{{valid_message}}}
+                </div>
+                {{/if}}
+                {{#if invalid_message}}
+                <div class="alert alert-danger" role="alert">
+                    {{{invalid_message}}}
+                </div>
+                {{/if}}
+
+                <table class='table table-hover data-table'>
+                    <thead class='thead-light'>
+                        <tr>
+                            <th scope='col' style="width: ;">Type</th>
+                            <th scope='col' style="width: ;">Emails</th>
+                            <th scope='col' style="width: ;">Fullname</th>
+                            <th scope='col' style="width: ;">Birthday</th>
+                            <th scope='col' style="width: ;">Phone number</th>
+                            <th scope='col' style="width: ;">Gender</th>
+                            <th scope='col' style="width: ;">Join date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if data}}
+                        {{#each data}}
+                        <tr>
+                            {{#if type}}
+                            <td style="color: green;"><b>Validated</b></td>
+                            {{else}}
+                            <td style="color: red;"><b>Not Validated</b></td>
+                            {{/if}}
+                            <td style=""><a href="#{{_id}}">{{email}}</a></td>
+                            <td style="">{{fullname}}</td>
+                            <td style="">{{birthday}}</td>
+                            <td style="">{{phone}}</td>
+                            <td style="">{{gender}}</td>
+                            <td>{{join_date}}</td>
+                        </tr>
+                        {{/each}}
+                        {{else}}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- /#admin-main-control -->
+    </div> <!-- /.row -->
+</div> <!-- /.container-fluid -->
