@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const AccountModel = require('../model/AccountModel');
 const EmailModel = require('../model/EmailModel');
+const AdminModel = require('../model/AdminModel');
+const bcrypt = require('bcrypt');
 
 module.exports.randomPropety = (obj) => {
     var keys = Object.keys(obj);
@@ -98,4 +100,31 @@ module.exports.emailCreate = async (session_email) => {
 module.exports.getSimpleView = async (session_email) => {
     let accountInfo = await AccountModel.findOne({ email: session_email })
     return accountInfo.simple_view
+}
+module.exports.isAdminExist = async () => {
+    try {
+        let adminExist = await AdminModel.findOne({ username: "admin" })
+        if (!adminExist) {
+            let hashedPassword = await bcrypt.hash("123456", 10)
+            let newAdmin = new AdminModel({
+                username: "admin",
+                password: hashedPassword
+            })
+            let result = await newAdmin.save()
+            return {
+                isExist: false,
+                success: 1
+            }
+        }
+        return {
+            isExist: true,
+            success: 1
+        }
+    } catch (error) {
+        return {
+            isExist: false,
+            success: 0,
+            message: error
+        }
+    }
 }
