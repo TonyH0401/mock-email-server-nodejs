@@ -193,6 +193,17 @@ router.get('/emails', async (req, res, next) => {
 })
 
 
+router.get('/logout', async (req, res, next) => {
+    const session_admin = req.session.admin
+    if(!session_admin) {
+        return res.redirect('/admins/login')
+    }
+    let admin = session_admin
+    req.session.destroy()
+    return res.redirect('/admins/login')
+})
+
+
 // admin router handling
 router.use((req, res, next) => {
     return res.status(404).render('admin/admin-error', {
@@ -201,8 +212,6 @@ router.use((req, res, next) => {
         message: "This link is not supported!"
     })
 })
-
-
 
 
 
