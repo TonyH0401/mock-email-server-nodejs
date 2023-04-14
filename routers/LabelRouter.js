@@ -72,7 +72,7 @@ router.get('/email-list-based-on-label/:labelID', async (req, res, next) => {
         }
     })
     return res.render('view-email-list-label', {
-        document: "Label View'",
+        document: "Label View",
         category: `Label '${label.label_name}' of `,
         user_email: session_email,
         emailList: result2

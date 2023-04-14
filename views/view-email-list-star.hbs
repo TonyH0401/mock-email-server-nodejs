@@ -64,63 +64,65 @@
         <a href="/accounts/change-view">Change View</a>
         <a href="/accounts/logout">Logout</a>
     </div>
-    <div class="card shadow">
-        <div class="pt-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
-        </div>
-        <div class='card-body'>
-            <table class='table table-hover data-table'>
-                <thead class='thead-light'>
-                    <tr>
-                        {{!-- <th scope='col'>Hình ảnh</th>
-                        <th scope='col'>Tên</th>
-                        <th scope='col'>Mã</th>
-                        <th scope='col'>Điều chỉnh</th>
-                        <th scope='col'></th> --}}
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#if emailList}}
-                    {{#each emailList}}
-                    <tr>
-                        <td style="color: red; width: 8%">{{emailNotation}}</td>
-                        <td style="width: 15%">{{draft_sender_receiver}}</td>
-                        <td id="time-{{_id}}" hidden>{{createdAt}}</td>
-                        <td style="width: 15%"><a href="/accounts/view-email-detail/{{_id}}"
-                                target="_blank">{{subject}}</a></td>
-                        <td style="width: 25%">{{body}}</td>
-                        <td class='d-flex'>
-                            {{!--is star --}}
-                            {{#if is_star_send}}
-                            <a class='text-warning w-25' href='/emails/update-is-star-draft-send/{{_id}}/false'>
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            {{/if}}
-                            {{#if is_star}}
-                            <a class='text-warning w-25' href='/emails/update-is-star-receive/{{_id}}/false'>
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            {{/if}}
-                            {{!--is meta data --}}
-                            <a class='text-primary w-25 meta-data' href='#' id="meta-data-{{_id}}">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {{/each}}
-                    {{else}}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {{/if}}
-                </tbody>
-            </table>
+    <div class="ml-5 pl-5">
+        <div class="card shadow">
+            <div class="pt-5">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
+            </div>
+            <div class='card-body'>
+                <table class='table table-hover data-table'>
+                    <thead class='thead-light'>
+                        <tr>
+                            {{!-- <th scope='col'>Hình ảnh</th>
+                            <th scope='col'>Tên</th>
+                            <th scope='col'>Mã</th>
+                            <th scope='col'>Điều chỉnh</th>
+                            <th scope='col'></th> --}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if emailList}}
+                        {{#each emailList}}
+                        <tr>
+                            <td style="color: red; width: 8%">{{emailNotation}}</td>
+                            <td style="width: 15%">{{draft_sender_receiver}}</td>
+                            <td id="time-{{_id}}" hidden>{{createdAt}}</td>
+                            <td style="width: 15%"><a href="/accounts/view-email-detail/{{_id}}"
+                                    target="_blank">{{subject}}</a></td>
+                            <td style="width: 25%">{{body}}</td>
+                            <td class='d-flex'>
+                                {{!--is star --}}
+                                {{#if is_star_send}}
+                                <a class='text-warning w-25' href='/emails/update-is-star-draft-send/{{_id}}/false'>
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                {{/if}}
+                                {{#if is_star}}
+                                <a class='text-warning w-25' href='/emails/update-is-star-receive/{{_id}}/false'>
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                {{/if}}
+                                {{!--is meta data --}}
+                                <a class='text-primary w-25 meta-data' href='#' id="meta-data-{{_id}}">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        {{else}}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

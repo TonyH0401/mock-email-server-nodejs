@@ -64,85 +64,89 @@
         <a href="/accounts/change-view">Change View</a>
         <a href="/accounts/logout">Logout</a>
     </div>
-    <div class="card shadow">
+    <div class="ml-5 pl-5">
+        <div class="card shadow">
 
-        <div class="pt-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
-        </div>
-
-        {{#if error}}
-        <div class="d-flex justify-content-center">
-            <div class="alert alert-danger" role="alert">
-                {{error}}
+            <div class="pt-5">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
             </div>
-        </div>
-        {{/if}}
-        {{#if success}}
-        <div class="d-flex justify-content-center">
-            <div class="alert alert-success" role="alert">
-                {{success}}
-            </div>
-        </div>
-        {{/if}}
 
-        <div class="d-flex justify-content-center">
-            <div class="w-50">
-                <form action="/accounts/label-management" method="post" id="labelForm">
-                    <!-- Search input -->
-                    <div class="form-outline mb-2">
-                        <input type="text" id="label" name="label" class="form-control" required />
-                        <label class="form-label" for="label"></label>
-                    </div>
-                    <!-- Search button -->
-                    <button type="submit" class="btn btn-success btn-block mb-4" form="labelForm">Create Label</button>
-                </form>
+            {{#if error}}
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
             </div>
-        </div>
+            {{/if}}
+            {{#if success}}
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-success" role="alert">
+                    {{success}}
+                </div>
+            </div>
+            {{/if}}
 
-        <div class='card-body'>
-            <table class='table table-hover data-table'>
-                <thead class='thead-light'>
-                    <tr>
-                        <th scope='col' style="width: 20%;">Label ID</th>
-                        <th scope='col' style="width: 10%;">Label Name</th>
-                        <th scope='col' style="width: 45%;">Created At</th>
-                        <th scope='col' style="width: 25%;">Option</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#if labelList}}
-                    {{#each labelList}}
-                    <tr>
-                        <td style="width: 20%">{{_id}}</td>
-                        <td style="width: 10%"><a href="/labels/email-list-based-on-label/{{_id}}">{{label_name}}</a>
-                        </td>
-                        <td style="width: 45%">{{createdAt}}</td>
-                        {{#if available}}
-                        <td class='d-flex'>
-                            <a class='text-success w-25 meta-data' href='/labels/change-status/{{_id}}/false' id="">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                        </td>
+            <div class="d-flex justify-content-center">
+                <div class="w-50">
+                    <form action="/accounts/label-management" method="post" id="labelForm">
+                        <!-- Search input -->
+                        <div class="form-outline mb-2">
+                            <input type="text" id="label" name="label" class="form-control" required />
+                            <label class="form-label" for="label"></label>
+                        </div>
+                        <!-- Search button -->
+                        <button type="submit" class="btn btn-success btn-block mb-4" form="labelForm">Create
+                            Label</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class='card-body'>
+                <table class='table table-hover data-table'>
+                    <thead class='thead-light'>
+                        <tr>
+                            <th scope='col' style="width: 20%;">Label ID</th>
+                            <th scope='col' style="width: 10%;">Label Name</th>
+                            <th scope='col' style="width: 45%;">Created At</th>
+                            <th scope='col' style="width: 25%;">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if labelList}}
+                        {{#each labelList}}
+                        <tr>
+                            <td style="width: 20%">{{_id}}</td>
+                            <td style="width: 10%"><a
+                                    href="/labels/email-list-based-on-label/{{_id}}">{{label_name}}</a>
+                            </td>
+                            <td style="width: 45%">{{createdAt}}</td>
+                            {{#if available}}
+                            <td class='d-flex'>
+                                <a class='text-success w-25 meta-data' href='/labels/change-status/{{_id}}/false' id="">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </td>
+                            {{else}}
+                            <td class='d-flex'>
+                                <a class='text-danger w-25 meta-data' href='/labels/change-status/{{_id}}/true' id="">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </a>
+                            </td>
+                            {{/if }}
+                        </tr>
+                        {{/each}}
                         {{else}}
-                        <td class='d-flex'>
-                            <a class='text-danger w-25 meta-data' href='/labels/change-status/{{_id}}/true' id="">
-                                <i class="fa-solid fa-eye-slash"></i>
-                            </a>
-                        </td>
-                        {{/if }}
-                    </tr>
-                    {{/each}}
-                    {{else}}
-                    <tr>
-                        <td style="width: 20%"></td>
-                        <td style="width: 10%"></td>
-                        <td style="width: 45%"></td>
-                        <td class='d-flex w-25'>
-                        </td>
-                    </tr>
-                    {{/if}}
-                </tbody>
-            </table>
+                        <tr>
+                            <td style="width: 20%"></td>
+                            <td style="width: 10%"></td>
+                            <td style="width: 45%"></td>
+                            <td class='d-flex w-25'>
+                            </td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

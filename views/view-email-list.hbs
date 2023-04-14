@@ -72,121 +72,123 @@
         <a href="/accounts/change-view">Change View</a>
         <a href="/accounts/logout">Logout</a>
     </div>
-    <div class="card shadow">
-        <div class="pt-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
-        </div>
-        <div class='card-body'>
-            <table class='table table-hover data-table'>
-                <thead class='thead-light'>
-                    <tr>
-                        <th scope='col'>Mail Type</th>
-                        <th scope='col'>Sender</th>
-                        <th scope='col'>Subject</th>
-                        <th scope='col'>Content</th>
-                        <th scope='col'>Control</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#if emailList}}
-                    {{#each emailList}}
-                    {{#unless is_delete}}
-                    {{#unless is_delete_send}}
-                    <tr>
-                        <td style="color: red; width: 8%">{{emailNotation}}</td>
-                        <td style="width: 15%" id="sender-{{_id}}">{{sender}}</td>
-                        <td id="time-{{_id}}" hidden>{{createdAt}}</td>
-                        <td style="width: 15%"><a href="/accounts/view-email-detail/{{_id}}"
-                                target="_blank">{{subject}}</a></td>
-                        <td style="width: 25%">{{body}}</td>
-                        <td class='d-flex'>
-                            {{#if editOption}}
+    <div class="ml-5 pl-5">
+        <div class="card shadow">
+            <div class="pt-5">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
+            </div>
+            <div class='card-body'>
+                <table class='table table-hover data-table'>
+                    <thead class='thead-light'>
+                        <tr>
+                            <th scope='col'>Mail Type</th>
+                            <th scope='col'>Sender</th>
+                            <th scope='col'>Subject</th>
+                            <th scope='col'>Content</th>
+                            <th scope='col'>Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if emailList}}
+                        {{#each emailList}}
+                        {{#unless is_delete}}
+                        {{#unless is_delete_send}}
+                        <tr>
+                            <td style="color: red; width: 8%">{{emailNotation}}</td>
+                            <td style="width: 15%" id="sender-{{_id}}">{{sender}}</td>
+                            <td id="time-{{_id}}" hidden>{{createdAt}}</td>
+                            <td style="width: 15%"><a href="/accounts/view-email-detail/{{_id}}"
+                                    target="_blank">{{subject}}</a></td>
+                            <td style="width: 25%">{{body}}</td>
+                            <td class='d-flex'>
+                                {{#if editOption}}
 
-                            {{!-- is read --}}
-                            {{#unless is_read}}
-                            <a class='text-info w-25' href='/emails/update-is-read/{{_id}}/true'>
-                                <i class='fa-solid fa-eye fa-lg'></i>
-                            </a>
-                            {{/unless}}
-                            {{#if is_read}}
-                            <a class='text-info w-25' href='/emails/update-is-read/{{_id}}/false'>
-                                <i class='fa-solid fa-eye-slash fa-lg'></i>
-                            </a>
-                            {{/if}}
-                            {{!--is star --}}
-                            {{#unless is_star}}
-                            <a class='text-warning w-25' href='/emails/update-is-star/{{_id}}/true'>
-                                <i class="fa-regular fa-star"></i>
-                            </a>
-                            {{/unless}}
-                            {{#if is_star}}
-                            <a class='text-warning w-25' href='/emails/update-is-star/{{_id}}/false'>
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            {{/if}}
-                            {{!--is delete --}}
-                            <a class='text-danger w-25' href='/emails/update-is-deleted/{{_id}}/true'>
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
+                                {{!-- is read --}}
+                                {{#unless is_read}}
+                                <a class='text-info w-25' href='/emails/update-is-read/{{_id}}/true'>
+                                    <i class='fa-solid fa-eye fa-lg'></i>
+                                </a>
+                                {{/unless}}
+                                {{#if is_read}}
+                                <a class='text-info w-25' href='/emails/update-is-read/{{_id}}/false'>
+                                    <i class='fa-solid fa-eye-slash fa-lg'></i>
+                                </a>
+                                {{/if}}
+                                {{!--is star --}}
+                                {{#unless is_star}}
+                                <a class='text-warning w-25' href='/emails/update-is-star/{{_id}}/true'>
+                                    <i class="fa-regular fa-star"></i>
+                                </a>
+                                {{/unless}}
+                                {{#if is_star}}
+                                <a class='text-warning w-25' href='/emails/update-is-star/{{_id}}/false'>
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                {{/if}}
+                                {{!--is delete --}}
+                                <a class='text-danger w-25' href='/emails/update-is-deleted/{{_id}}/true'>
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
 
-                            {{/if}}
+                                {{/if}}
 
-                            {{#unless editOption}}
-                            {{#unless is_star_send}}
-                            <a class='text-warning w-25' href='/emails/update-is-star-send/{{_id}}/true'>
-                                <i class="fa-regular fa-star"></i>
-                            </a>
-                            {{/unless}}
-                            {{#if is_star_send}}
-                            <a class='text-warning w-25' href='/emails/update-is-star-send/{{_id}}/false'>
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            {{/if}}
-                            <a class='text-danger w-25' href='/emails/update-is-deleted-send/{{_id}}/true'>
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
-                            {{/unless}}
+                                {{#unless editOption}}
+                                {{#unless is_star_send}}
+                                <a class='text-warning w-25' href='/emails/update-is-star-send/{{_id}}/true'>
+                                    <i class="fa-regular fa-star"></i>
+                                </a>
+                                {{/unless}}
+                                {{#if is_star_send}}
+                                <a class='text-warning w-25' href='/emails/update-is-star-send/{{_id}}/false'>
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                {{/if}}
+                                <a class='text-danger w-25' href='/emails/update-is-deleted-send/{{_id}}/true'>
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                                {{/unless}}
 
 
-                            {{!--is meta data --}}
-                            <a class='text-primary w-25 meta-data' href='#' id="meta-data-{{_id}}">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </a>
+                                {{!--is meta data --}}
+                                <a class='text-primary w-25 meta-data' href='#' id="meta-data-{{_id}}">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </a>
 
-                            <!-- Button trigger modal -->
-                            {{!-- <a style="cursor: pointer" class='text-danger w-100 delBtn'
-                                data-available="{{is_available}}" data-pid="{{pid}}" data-toggle='modal'
-                                data-target='#deleteModal'
-                                onclick="$('#deleteBtn').attr('href', '/admin/delete-product/{{pid}}')">
-                                <i class='fas fa-trash fa-lg'></i>
-                            </a> --}}
-                        </td>
-                        {{!-- <td>
-                            <label class="switch">
-                                <input class="switchBtn" {{#if is_available}}checked{{/if}} type="checkbox">
+                                <!-- Button trigger modal -->
+                                {{!-- <a style="cursor: pointer" class='text-danger w-100 delBtn'
+                                    data-available="{{is_available}}" data-pid="{{pid}}" data-toggle='modal'
+                                    data-target='#deleteModal'
+                                    onclick="$('#deleteBtn').attr('href', '/admin/delete-product/{{pid}}')">
+                                    <i class='fas fa-trash fa-lg'></i>
+                                </a> --}}
+                            </td>
+                            {{!-- <td>
+                                <label class="switch">
+                                    <input class="switchBtn" {{#if is_available}}checked{{/if}} type="checkbox">
 
-                                <span class="slider"></span>
-                                <input class="switch_pid" type="hidden" value="{{pid}}">
-                                <input class="switch_available" type="hidden" value="{{is_available}}">
-                            </label>
-                        </td> --}}
-                    </tr>
-                    {{/unless}}
-                    {{/unless}}
-                    {{/each}}
-                    {{else}}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {{/if}}
-                </tbody>
-            </table>
+                                    <span class="slider"></span>
+                                    <input class="switch_pid" type="hidden" value="{{pid}}">
+                                    <input class="switch_available" type="hidden" value="{{is_available}}">
+                                </label>
+                            </td> --}}
+                        </tr>
+                        {{/unless}}
+                        {{/unless}}
+                        {{/each}}
+                        {{else}}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

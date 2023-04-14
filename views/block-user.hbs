@@ -64,71 +64,73 @@
         <a href="/accounts/change-view">Change View</a>
         <a href="/accounts/logout">Logout</a>
     </div>
-    <div class="card shadow">
+    <div class="ml-5 pl-5">
+        <div class="card shadow">
 
-        <div class="pt-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
-        </div>
-
-        {{#if error}}
-        <div class="d-flex justify-content-center">
-            <div class="alert alert-danger" role="alert">
-                {{error}}
+            <div class="pt-5">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-3 text-center">{{category}}<b>{{user_email}}</b></h3>
             </div>
-        </div>
-        {{/if}}
-        {{#if success}}
-        <div class="d-flex justify-content-center">
-            <div class="alert alert-success" role="alert">
-                {{success}}
-            </div>
-        </div>
-        {{/if}}
 
-        <div class="d-flex justify-content-center">
-            <div class="w-50">
-                <form action="/accounts/block-user" method="post" id="blockForm">
-                    <!-- Search input -->
-                    <div class="form-outline mb-2">
-                        <input type="text" id="email" name="email" class="form-control" required />
-                        <label class="form-label" for="email"></label>
-                    </div>
-                    <!-- Search button -->
-                    <button type="submit" class="btn btn-success btn-block mb-4" form="blockForm">Block</button>
-                </form>
+            {{#if error}}
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
             </div>
-        </div>
+            {{/if}}
+            {{#if success}}
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-success" role="alert">
+                    {{success}}
+                </div>
+            </div>
+            {{/if}}
 
-        <div class='card-body'>
-            <table class='table table-hover data-table'>
-                <thead class='thead-light'>
-                    <tr>
-                        <th scope='col' style="width: 50%;">Blocked Users</th>
-                        <th scope='col' style="width: 50%;">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#if blockUserList}}
-                    {{#each blockUserList}}
-                    <tr>
-                        <td style="width: 10%">{{blockEmail}}</td>
-                        <td class='d-flex'>
-                            <a class='text-success w-25 meta-data' href='/accounts/remove-block-user/{{blockEmail}}'
-                                id="">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {{/each}}
-                    {{else}}
-                    <tr>
-                        <td style="width: 50%"></td>
-                        <td style="width: 50%"></td>
-                        </td>
-                    </tr>
-                    {{/if}}
-                </tbody>
-            </table>
+            <div class="d-flex justify-content-center">
+                <div class="w-50">
+                    <form action="/accounts/block-user" method="post" id="blockForm">
+                        <!-- Search input -->
+                        <div class="form-outline mb-2">
+                            <input type="text" id="email" name="email" class="form-control" required />
+                            <label class="form-label" for="email"></label>
+                        </div>
+                        <!-- Search button -->
+                        <button type="submit" class="btn btn-success btn-block mb-4" form="blockForm">Block</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class='card-body'>
+                <table class='table table-hover data-table'>
+                    <thead class='thead-light'>
+                        <tr>
+                            <th scope='col' style="width: 50%;">Blocked Users</th>
+                            <th scope='col' style="width: 50%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if blockUserList}}
+                        {{#each blockUserList}}
+                        <tr>
+                            <td style="width: 10%">{{blockEmail}}</td>
+                            <td class='d-flex'>
+                                <a class='text-success w-25 meta-data' href='/accounts/remove-block-user/{{blockEmail}}'
+                                    id="">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        {{else}}
+                        <tr>
+                            <td style="width: 50%"></td>
+                            <td style="width: 50%"></td>
+                            </td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
