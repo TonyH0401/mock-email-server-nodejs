@@ -22,11 +22,14 @@ router.get('/home', async (req, res, next) => {
     let valid_user = await admin_function_API.getValidUserNumber()
     let invalid_user = await admin_function_API.getInvalidUserNumber()
     let emails = await admin_function_API.getEmailNumber()
+    let quote_result = await admin_function_API.getAnimeQuote()
     return res.render('admin/admin-home', {
         document: "Admin Home",
         valid_user: valid_user,
         invalid_user: invalid_user,
-        emails: emails
+        emails: emails,
+        quote: quote_result.quote || '',
+        author: quote_result.author || ''
     })
 })
 
