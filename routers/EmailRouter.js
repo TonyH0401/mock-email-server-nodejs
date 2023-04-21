@@ -60,42 +60,51 @@ router.put('/update', async (req, res, next) => {
     }
 })
 router.post('/send-email', async (req, res, next) => {
-    // console.log(req.body)
-    const { emailId, email, subject, message, labels } = req.body
-    let emailValid = await function_API.emailStringToArrayObject(email)
-    if (!emailValid.success) {
-        req.flash('error', emailValid.message)
-        return res.redirect(`/accounts/email/create-email/${emailId}`)
-    }
-    // check block and blocked email
-    // intersect of the 2 emails
-    let session_email = req.session.email
-    let accountInfo = await AccountModel.findOne({ email: session_email })
-    let blockList = accountInfo.blocked_user.concat(accountInfo.blocked_user_invs)
-    let intersect = function_API.getListReceiverArrayFromArrayObject(emailValid.data).filter(value => blockList.includes(value));
-    if(intersect.length != 0) {
-        req.flash('error', `${intersect.toLocaleString()} is blocked`)
-        return res.redirect(`/accounts/email/create-email/${emailId}`)
-    }
-    // 
-    let emailExist = await EmailModel.findOne({ _id: emailId })
-    if (!emailExist) {
-        req.flash('error', 'Email ID does not exist!')
-        return res.redirect(`/accounts/home`)
-    }
-    emailExist.subject = subject
-    emailExist.body = message
-    emailExist.receiver = emailValid.data
-    emailExist.email_type = "send"
-    if (labels != "default") {
-        let label = await LabelModel.findOne({ _id: labels })
-        if (label) {
-            emailExist.label = label._id
+    try {
+        // console.log(req.body)
+        const { emailId, email, subject, message, labels } = req.body
+        // 
+        let emailValid = await function_API.emailStringToArrayObject(email)
+        if (!emailValid.success) {
+            req.flash('error', emailValid.message)
+            return res.redirect(`/accounts/email/create-email/${emailId}`)
         }
+        // check block and blocked email
+        // intersect of the 2 emails
+        let session_email = req.session.email
+        let accountInfo = await AccountModel.findOne({ email: session_email })
+        let blockList = accountInfo.blocked_user.concat(accountInfo.blocked_user_invs)
+        let intersect = function_API.getListReceiverArrayFromArrayObject(emailValid.data).filter(value => blockList.includes(value));
+        if (intersect.length != 0) {
+            req.flash('error', `${intersect.toLocaleString()} is blocked`)
+            return res.redirect(`/accounts/email/create-email/${emailId}`)
+        }
+        // 
+        let emailExist = await EmailModel.findOne({ _id: emailId })
+        if (!emailExist) {
+            req.flash('error', 'Email ID does not exist!')
+            return res.redirect(`/accounts/home`)
+        }
+        emailExist.subject = subject
+        emailExist.body = message
+        emailExist.receiver = emailValid.data
+        emailExist.email_type = "send"
+        if (labels != "default") {
+            let label = await LabelModel.findOne({ _id: labels })
+            if (label) {
+                emailExist.label = label._id
+            }
+        }
+        let result = await emailExist.save()
+        req.flash('success', 'Sent Email!')
+        return res.redirect('/accounts/home')
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "Send Email Error",
+            status: 500,
+            message: error
+        })
     }
-    let result = await emailExist.save()
-    req.flash('success', 'Sent Email!')
-    return res.redirect('/accounts/home')
 })
 router.get('/update-is-read/:emailId/:status', async (req, res, next) => {
     const email = req.session.email

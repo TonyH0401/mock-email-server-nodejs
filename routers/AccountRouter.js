@@ -574,6 +574,7 @@ router.get('/email/create-email/:email_id', async (req, res, next) => {
     let subject = emailExit.subject
     let text = emailExit.body
     return res.render('create-email', {
+        document: 'Create Email',
         quote: quote,
         email_id: email_id,
         subject: subject,
