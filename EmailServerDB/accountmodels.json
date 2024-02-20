@@ -1,0 +1,115 @@
+[{
+  "_id": {
+    "$oid": "643513bcbb3e1cb453e964d3"
+  },
+  "first_name": "Tony",
+  "last_name": "Stark",
+  "gender": "male",
+  "birthday": {
+    "$date": "1970-05-29T00:00:00.000Z"
+  },
+  "email": "tonystark@mymail.com",
+  "password": "123456",
+  "phone_number": "0111111111",
+  "blocked_user": [],
+  "blocked_user_invs": [],
+  "is_validated": true,
+  "two_auth": true,
+  "simple_view": true,
+  "createdAt": {
+    "$date": "2023-04-11T08:01:00.425Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:46:02.580Z"
+  },
+  "__v": 10,
+  "question": {
+    "fav_food": "chicken",
+    "nickname": "tony",
+    "pet_name": "misa"
+  }
+},{
+  "_id": {
+    "$oid": "6435142067562c8415aeeddd"
+  },
+  "first_name": "Steve",
+  "last_name": "Roger",
+  "gender": "male",
+  "birthday": {
+    "$date": {
+      "$numberLong": "-1561939200000"
+    }
+  },
+  "email": "steveroger@mymail.com",
+  "password": "123456",
+  "phone_number": "0111111112",
+  "blocked_user": [],
+  "blocked_user_invs": [],
+  "is_validated": true,
+  "two_auth": false,
+  "simple_view": true,
+  "createdAt": {
+    "$date": "2023-04-11T08:02:40.428Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:46:02.548Z"
+  },
+  "__v": 13
+},{
+  "_id": {
+    "$oid": "64351c32770c90ac6b1dde5c"
+  },
+  "first_name": "Clint",
+  "last_name": "Barton",
+  "gender": "male",
+  "birthday": {
+    "$date": "1975-11-01T00:00:00.000Z"
+  },
+  "email": "clintbarton@mymail.com",
+  "password": "123456",
+  "phone_number": "0111111113",
+  "blocked_user": [],
+  "blocked_user_invs": [],
+  "is_validated": true,
+  "two_auth": false,
+  "simple_view": true,
+  "createdAt": {
+    "$date": "2023-04-11T08:37:06.620Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T05:57:07.314Z"
+  },
+  "__v": 9
+},{
+  "_id": {
+    "$oid": "6454a17a6d47d72082b65b92"
+  },
+  "first_name": "Abigail",
+  "last_name": "Hunkel",
+  "gender": "other",
+  "birthday": {
+    "$date": {
+      "$numberLong": "-297216000000"
+    }
+  },
+  "email": "redtornado@mymail.com",
+  "password": "123456",
+  "phone_number": "0111111119",
+  "blocked_user": [],
+  "blocked_user_invs": [],
+  "is_validated": true,
+  "two_auth": true,
+  "simple_view": true,
+  "createdAt": {
+    "$date": "2023-05-05T06:26:02.666Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:36:11.218Z"
+  },
+  "__v": 0,
+  "question": {
+    "fav_food": "pizza",
+    "nickname": "red",
+    "pet_name": "spike"
+  }
+}]

@@ -787,33 +787,41 @@ router.get('/delete-email', async (req, res, next) => {
 
 
 router.get('/view-email-detail/:emailId', async (req, res, next) => {
-    const { emailId } = req.params
-    let email = req.session.email
-    if (!email) {
-        return res.status(202).redirect('/accounts/home')
-    }
-    let emailExist = await EmailModel.findOne({ _id: emailId })
-    let returnLabel = ''
-    let labelExist = await emailExist.populate('label')
-    if (labelExist.label) {
-        returnLabel = labelExist.label.label_name
-    }
-    if (emailExist.email_type != "draft") {
-        let data = {
-            _id: emailExist._id,
-            sender: emailExist.sender,
-            subject: emailExist.subject,
-            body: emailExist.body,
-            receiver: function_API.getListReceiverFromArray(emailExist.receiver),
-            label: returnLabel
+    try {
+        const { emailId } = req.params
+        let email = req.session.email
+        if (!email) {
+            return res.status(202).redirect('/accounts/home')
         }
-        return res.render('view-email-detail', {
-            document: "Detail View",
-            data: data,
-            error: req.flash('error') || ''
+        let emailExist = await EmailModel.findOne({ _id: emailId })
+        let returnLabel = ''
+        let labelExist = await emailExist.populate('label')
+        if (labelExist.label) {
+            returnLabel = labelExist.label.label_name
+        }
+        if (emailExist.email_type != "draft") {
+            let data = {
+                _id: emailExist._id,
+                sender: emailExist.sender,
+                subject: emailExist.subject,
+                body: emailExist.body,
+                receiver: function_API.getListReceiverFromArray(emailExist.receiver),
+                label: returnLabel
+            }
+            return res.render('view-email-detail', {
+                document: "Detail View",
+                data: data,
+                error: req.flash('error') || ''
+            })
+        }
+        return res.redirect(`/accounts/email/create-email/${emailId}`)
+    } catch (error) {
+        return res.status(500).render('error', {
+            document: "View Email Detail Error",
+            status: 500,
+            message: error
         })
     }
-    return res.redirect(`/accounts/email/create-email/${emailId}`)
 })
 router.post('/reply-forward', async (req, res, next) => {
     const session_email = req.session.email
@@ -1198,7 +1206,7 @@ router.post('/change-view', async (req, res, next) => {
 
 router.get('/logout', async (req, res, next) => {
     const session_email = req.session.email
-    if(!session_email) {
+    if (!session_email) {
         return res.redirect('/accounts/login')
     }
     let email = session_email

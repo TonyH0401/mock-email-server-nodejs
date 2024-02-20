@@ -1,0 +1,624 @@
+[{
+  "_id": {
+    "$oid": "6435145667562c8415aeedf1"
+  },
+  "sender": "steveroger@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "tonystark@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6435147267562c8415aeedfc"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T08:03:34.940Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T08:04:02.268Z"
+  },
+  "__v": 1,
+  "body": "When will we meet?",
+  "subject": "Avenger Meeting?"
+},{
+  "_id": {
+    "$oid": "6435148267562c8415aeee08"
+  },
+  "sender": "tonystark@mymail.com",
+  "subject": "Re: Avenger Meeting?",
+  "body": "I dont know? Must ask Pepper!\r\n==========\r\nSender: steveroger@mymail.com\r\nReceiver: tonystark@mymail.com\r\nWhen will we meet?",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": true,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6435149367562c8415aeee0c"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T08:04:18.622Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T08:10:16.163Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "6435150567562c8415aeee24"
+  },
+  "sender": "tonystark@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": true,
+      "is_star": true,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6435151c67562c8415aeee2c"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T08:06:29.657Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T08:09:37.482Z"
+  },
+  "__v": 1,
+  "body": "Remember to party ok?",
+  "subject": "The party start at 9 tonight",
+  "label": {
+    "$oid": "6435150367562c8415aeee21"
+  }
+},{
+  "_id": {
+    "$oid": "6435158f67562c8415aeee52"
+  },
+  "sender": "steveroger@mymail.com",
+  "subject": "Fwd: The party start at 9 tonight",
+  "body": "yeah ok, place?\r\n==========\r\nSender: tonystark@mymail.com\r\nReceiver: steveroger@mymail.com\r\nRemember to party ok?",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "tonystark@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6435159867562c8415aeee56"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T08:08:47.365Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T08:08:56.213Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "6435159e67562c8415aeee61"
+  },
+  "sender": "tonystark@mymail.com",
+  "subject": "Re: Fwd: The party start at 9 tonight",
+  "body": "stark tower!!!!\r\n==========\r\nSender: steveroger@mymail.com\r\nReceiver: tonystark@mymail.com\r\nyeah ok, place?\r\n==========\r\nSender: tonystark@mymail.com\r\nReceiver: steveroger@mymail.com\r\nRemember to party ok?",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": false,
+      "is_star": true,
+      "is_delete": false,
+      "_id": {
+        "$oid": "643515a567562c8415aeee65"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T08:09:02.198Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T08:09:38.207Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "643515ce67562c8415aeee93"
+  },
+  "sender": "steveroger@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "draft",
+  "receiver": [],
+  "createdAt": {
+    "$date": "2023-04-11T08:09:50.407Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-13T12:33:38.848Z"
+  },
+  "__v": 0,
+  "body": "maybe ultron?",
+  "subject": "ultron? maybe? after all of that?"
+},{
+  "_id": {
+    "$oid": "6435252282cab27f97a87d7b"
+  },
+  "sender": "steveroger@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "draft",
+  "receiver": [],
+  "createdAt": {
+    "$date": "2023-04-11T09:15:14.438Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T09:15:29.800Z"
+  },
+  "__v": 0,
+  "body": "test",
+  "subject": "test subject"
+},{
+  "_id": {
+    "$oid": "6435256b55cd2d05321375f5"
+  },
+  "sender": "clintbarton@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "draft",
+  "receiver": [],
+  "createdAt": {
+    "$date": "2023-04-11T09:16:27.845Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T09:16:40.069Z"
+  },
+  "__v": 0,
+  "body": "test",
+  "subject": "test"
+},{
+  "_id": {
+    "$oid": "643525d6b9755413af057d1f"
+  },
+  "sender": "steveroger@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "clintbarton@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6435273afa6ac196f4d6a19b"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T09:18:14.038Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T09:24:10.497Z"
+  },
+  "__v": 1,
+  "body": "i just change also",
+  "subject": "i just change the time subject quicker ?"
+},{
+  "_id": {
+    "$oid": "64353be2121d6e81e1c69673"
+  },
+  "sender": "steveroger@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "clintbarton@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "64353c12121d6e81e1c6967e"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T10:52:18.263Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T10:53:06.614Z"
+  },
+  "__v": 1,
+  "body": "yeah yeah",
+  "subject": "another subject after change router to function"
+},{
+  "_id": {
+    "$oid": "64353c2a121d6e81e1c6968b"
+  },
+  "sender": "steveroger@mymail.com",
+  "subject": "Re: another subject after change router to function",
+  "body": "yes?\r\n==========\r\nSender: steveroger@mymail.com\r\nReceiver: clintbarton@mymail.com\r\nyeah yeah",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "clintbarton@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "64353c3f121d6e81e1c69692"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-11T10:53:30.786Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-11T10:53:51.606Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "6441e618942611f258efa8c3"
+  },
+  "sender": "tonystark@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6441e650942611f258efa8d2"
+      }
+    },
+    {
+      "email": "clintbarton@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6441e650942611f258efa8d3"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-04-21T01:25:44.975Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-21T01:26:40.970Z"
+  },
+  "__v": 1,
+  "body": "test body day 21-4-2023",
+  "subject": "test subject day 21-4-2023"
+},{
+  "_id": {
+    "$oid": "6441e663942611f258efa8e0"
+  },
+  "sender": "tonystark@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "draft",
+  "receiver": [],
+  "createdAt": {
+    "$date": "2023-04-21T01:26:59.726Z"
+  },
+  "updatedAt": {
+    "$date": "2023-04-21T01:27:09.225Z"
+  },
+  "__v": 0,
+  "body": "",
+  "subject": "another test subject"
+},{
+  "_id": {
+    "$oid": "64549a62193961e96a6a351c"
+  },
+  "sender": "tonystark@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "clintbarton@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "64549ac2193961e96a6a355d"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T05:55:46.187Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T05:57:22.905Z"
+  },
+  "__v": 1,
+  "body": "hive mind attack",
+  "subject": "test subject day 5-5-2023",
+  "label": {
+    "$oid": "6435150367562c8415aeee21"
+  }
+},{
+  "_id": {
+    "$oid": "6454a2676d47d72082b65bc9"
+  },
+  "sender": "redtornado@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "tonystark@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a2aa6d47d72082b65bd9"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T06:29:59.418Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:31:06.477Z"
+  },
+  "__v": 1,
+  "body": "Hi, I am red tornado",
+  "subject": "avenger x justice league"
+},{
+  "_id": {
+    "$oid": "6454a2de6d47d72082b65bee"
+  },
+  "sender": "tonystark@mymail.com",
+  "subject": "Re: avenger x justice league",
+  "body": "How are you? I am iron man\r\n==========\r\nSender: redtornado@mymail.com\r\nReceiver: tonystark@mymail.com\r\nHi, I am red tornado",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "redtornado@mymail.com",
+      "is_read": true,
+      "is_star": true,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a2f06d47d72082b65bf3"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T06:31:58.990Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:35:21.451Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "6454a3066d47d72082b65bfe"
+  },
+  "sender": "redtornado@mymail.com",
+  "subject": "Fwd: Re: avenger x justice league",
+  "body": "Hello captian!\r\n==========\r\nSender: tonystark@mymail.com\r\nReceiver: redtornado@mymail.com\r\nHow are you? I am iron man\r\n==========\r\nSender: redtornado@mymail.com\r\nReceiver: tonystark@mymail.com\r\nHi, I am red tornado",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a31d6d47d72082b65c05"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T06:32:38.663Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:33:01.027Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "6454a3546d47d72082b65c17"
+  },
+  "sender": "redtornado@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "draft",
+  "receiver": [],
+  "createdAt": {
+    "$date": "2023-05-05T06:33:56.473Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:34:34.544Z"
+  },
+  "__v": 0,
+  "body": "how are you?",
+  "subject": "Hello Justice League! New Year!"
+},{
+  "_id": {
+    "$oid": "6454a4bd6d47d72082b65d0b"
+  },
+  "sender": "steveroger@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "tonystark@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a4e36d47d72082b65d1c"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T06:39:57.599Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:40:35.203Z"
+  },
+  "__v": 1,
+  "body": "hello man!",
+  "subject": "when is the party",
+  "label": {
+    "$oid": "6454a4a86d47d72082b65cfe"
+  }
+},{
+  "_id": {
+    "$oid": "6454a5256d47d72082b65d7b"
+  },
+  "sender": "steveroger@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "draft",
+  "receiver": [],
+  "createdAt": {
+    "$date": "2023-05-05T06:41:41.360Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:41:49.029Z"
+  },
+  "__v": 0,
+  "body": "qweqwe",
+  "subject": "eqwe"
+},{
+  "_id": {
+    "$oid": "6454a60b6d47d72082b65e15"
+  },
+  "sender": "tonystark@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a6386d47d72082b65e2c"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T06:45:31.010Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:46:16.099Z"
+  },
+  "__v": 1,
+  "body": "123",
+  "subject": "123"
+},{
+  "_id": {
+    "$oid": "6454a70c6d47d72082b65e86"
+  },
+  "sender": "tonystark@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a7366d47d72082b65e95"
+      }
+    },
+    {
+      "email": "clintbarton@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a7366d47d72082b65e96"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T06:49:48.337Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:50:30.693Z"
+  },
+  "__v": 1,
+  "body": "test body final",
+  "subject": "test subject final",
+  "label": {
+    "$oid": "6435150367562c8415aeee21"
+  }
+},{
+  "_id": {
+    "$oid": "6454a75c6d47d72082b65ed6"
+  },
+  "sender": "tonystark@mymail.com",
+  "is_star_sender": false,
+  "is_delete_sender": false,
+  "email_type": "send",
+  "receiver": [
+    {
+      "email": "steveroger@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a7846d47d72082b65ee3"
+      }
+    },
+    {
+      "email": "clintbarton@mymail.com",
+      "is_read": false,
+      "is_star": false,
+      "is_delete": false,
+      "_id": {
+        "$oid": "6454a7846d47d72082b65ee4"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-05-05T06:51:08.911Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-05T06:51:48.780Z"
+  },
+  "__v": 1,
+  "body": "test body final final",
+  "subject": "test subject final final"
+}]
